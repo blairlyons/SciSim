@@ -8,6 +8,7 @@ namespace SciSim
 	{
 		public int count;
 		public List<Visualization> visualizationPrefabs = new List<Visualization>();
+		public List<Rule> rules = new List<Rule>();
 
 		Container _container;
 		public Container container

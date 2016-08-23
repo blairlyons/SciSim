@@ -48,6 +48,7 @@ namespace SciSim
 		public void Init () 
 		{
 			Visualize();
+			AddBehaviors();
 		}
 
 		public void UpdateAgent () 
@@ -70,6 +71,14 @@ namespace SciSim
 					visualization = (Instantiate( prefab.gameObject, transform.position, transform.rotation ) as GameObject).GetComponent<Visualization>();
 					visualization.transform.parent = transform;
 				}
+			}
+		}
+
+		void AddBehaviors ()
+		{
+			foreach (Rule rule in factory.rules)
+			{
+
 			}
 		}
 	}

@@ -5,6 +5,7 @@ namespace SciSim
 {
 	public class Container : MonoBehaviour 
 	{
+		public float temperature = 310.15f;
 		public Bounds bounds = new Bounds( Vector3.zero, 2f * Vector3.one );
 
 		Factory[] _factories;

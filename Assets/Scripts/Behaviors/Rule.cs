@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SciSim
 {
-	[CreateAssetMenu(fileName = "Rule", menuName = "Rule", order = 1)]
+	[CreateAssetMenu( fileName = "Rule", menuName = "Rule", order = 1 )]
 	public class Rule : ScriptableObject 
 	{
 		public List<RuleNode> nodes = new List<RuleNode>();
@@ -32,13 +32,13 @@ namespace SciSim
 	}
 
 	[System.Serializable]
-	public class Condition
+	public class Condition : ScriptableObject
 	{
 		
 	}
 
 	[System.Serializable]
-	public class Effect
+	public class Effect : ScriptableObject
 	{
 		
 	}

@@ -73,7 +73,7 @@ namespace SciSim
 		{
 			foreach (Rule rule in factory.rules)
 			{
-				//TODO
+				rule.Setup( this );
 			}
 		}
 

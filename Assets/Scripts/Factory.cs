@@ -8,7 +8,6 @@ namespace SciSim
 	{
 		public int count;
 		public int variation;
-		public int n;
 
 		public Pattern pattern;
 		public List<Visualization> visualizationPrefabs = new List<Visualization>();
@@ -27,7 +26,7 @@ namespace SciSim
 			}
 		}
 
-		public Agent[] agents;
+		public List<Agent> agents;
 
 		void Start () 
 		{
@@ -47,12 +46,12 @@ namespace SciSim
 
 		public void MakeAgents ()
 		{
-			n = Random.Range( count - variation, count + variation );
+			int n = Random.Range( count - variation, count + variation );
 
-			agents = new Agent[n];
+			agents = new List<Agent>();
 			for (int i = 0; i < n; i++)
 			{
-				agents[i] = new GameObject(name + "_" + i, typeof(Agent)).GetComponent<Agent>();
+				agents.Add( new GameObject(name + "_" + i, typeof(Agent)).GetComponent<Agent>() );
 				agents[i].transform.parent = transform;
 				agents[i].transform.position = GetPositionForIndex( i );
 				agents[i].transform.rotation = GetRotationForIndex( i );

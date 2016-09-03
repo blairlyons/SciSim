@@ -7,6 +7,10 @@ namespace SciSim
 	public class Factory : MonoBehaviour 
 	{
 		public int count;
+		public int variation;
+		public int n;
+
+		public Pattern pattern;
 		public List<Visualization> visualizationPrefabs = new List<Visualization>();
 		public List<Rule> rules = new List<Rule>();
 
@@ -43,15 +47,27 @@ namespace SciSim
 
 		public void MakeAgents ()
 		{
-			agents = new Agent[count];
-			for (int i = 0; i < count; i++)
+			n = Random.Range( count - variation, count + variation );
+
+			agents = new Agent[n];
+			for (int i = 0; i < n; i++)
 			{
 				agents[i] = new GameObject(name + "_" + i, typeof(Agent)).GetComponent<Agent>();
 				agents[i].transform.parent = transform;
-				agents[i].transform.position = container.RandomPointInBounds();
-				agents[i].transform.rotation = Random.rotation;
+				agents[i].transform.position = GetPositionForIndex( i );
+				agents[i].transform.rotation = GetRotationForIndex( i );
 				agents[i].Init();
 			}
+		}
+
+		Vector3 GetPositionForIndex (int index)
+		{
+			return container.transform.position + pattern.GetPositionInContainerForIndex( container, index );
+		}
+
+		Quaternion GetRotationForIndex (int index)
+		{
+			return container.transform.rotation * pattern.GetRotationInContainerForIndex( container, index );
 		}
 	}
 }

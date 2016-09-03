@@ -18,7 +18,7 @@ namespace SciSim
 			}
 		}
 
-		float _currentResolution = 1;
+		float _currentResolution = 100;
 		public float currentResolution
 		{
 			get 

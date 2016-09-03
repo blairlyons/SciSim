@@ -36,7 +36,7 @@ namespace SciSim
 			{
 				if (agent != null)
 				{
-					agent.UpdateAgent();
+					agent.Tick();
 				}
 			}
 		}

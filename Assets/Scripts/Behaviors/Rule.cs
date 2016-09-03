@@ -13,22 +13,8 @@ namespace SciSim
 	[System.Serializable]
 	public class RuleNode
 	{
-		public List<ConditionNode> conditions = new List<ConditionNode>();
-		public List<EffectNode> effects = new List<EffectNode>();
-	}
-
-	[System.Serializable]
-	public class ConditionNode
-	{
-		public ConditionType type;
-		public Condition condition;
-	}
-
-	[System.Serializable]
-	public class EffectNode
-	{
-		public EffectType type;
-		public Effect effect;
+		public List<Condition> conditions = new List<Condition>();
+		public List<Effect> effects = new List<Effect>();
 	}
 
 	[System.Serializable]
@@ -41,21 +27,5 @@ namespace SciSim
 	public class Effect : ScriptableObject
 	{
 		
-	}
-
-	public enum ConditionType
-	{
-		Random,
-		CollideWithTarget,
-		SiteOccupancy,
-		TargetCanFormProduct
-	}
-
-	public enum EffectType
-	{
-		MoveTarget,
-		ToggleSiteOccupancy,
-		ReactTarget,
-		ReleaseTarget
 	}
 }

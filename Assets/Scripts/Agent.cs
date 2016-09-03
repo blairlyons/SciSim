@@ -29,8 +29,8 @@ namespace SciSim
 			{
 				if (_currentResolution != value)
 				{
-					Visualize();
 					_currentResolution = value;
+					Visualize();
 				}
 			}
 		}
@@ -49,11 +49,6 @@ namespace SciSim
 		{
 			Visualize();
 			AddBehaviors();
-		}
-
-		public void UpdateAgent () 
-		{
-			
 		}
 
 		void Visualize ()
@@ -78,8 +73,13 @@ namespace SciSim
 		{
 			foreach (Rule rule in factory.rules)
 			{
-
+				//TODO
 			}
+		}
+
+		public void Tick () 
+		{
+			//TODO
 		}
 	}
 }

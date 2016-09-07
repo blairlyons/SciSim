@@ -11,7 +11,6 @@ namespace SciSim
 
 		public Pattern pattern;
 		public List<Visualization> visualizationPrefabs = new List<Visualization>();
-		public List<Rule> rules = new List<Rule>();
 
 		Container _container;
 		public Container container
@@ -31,17 +30,6 @@ namespace SciSim
 		void Start () 
 		{
 			MakeAgents();
-		}
-
-		void Update () 
-		{
-			foreach (Agent agent in agents)
-			{
-				if (agent != null)
-				{
-					agent.Tick();
-				}
-			}
 		}
 
 		public void MakeAgents ()

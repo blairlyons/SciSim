@@ -48,7 +48,6 @@ namespace SciSim
 		public void Init () 
 		{
 			Visualize();
-			AddBehaviors();
 		}
 
 		void Visualize ()
@@ -67,19 +66,6 @@ namespace SciSim
 					visualization.transform.parent = transform;
 				}
 			}
-		}
-
-		void AddBehaviors ()
-		{
-			foreach (Rule rule in factory.rules)
-			{
-				rule.Setup( this );
-			}
-		}
-
-		public void Tick () 
-		{
-			//TODO
 		}
 	}
 }

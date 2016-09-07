@@ -10,7 +10,7 @@ namespace SciSim
 		public int variation;
 
 		public Pattern pattern;
-		public List<Visualization> visualizationPrefabs = new List<Visualization>();
+		public Agent agentPrefab;
 
 		Container _container;
 		public Container container
@@ -34,16 +34,22 @@ namespace SciSim
 
 		public void MakeAgents ()
 		{
-			int n = Random.Range( count - variation, count + variation );
-
-			agents = new List<Agent>();
-			for (int i = 0; i < n; i++)
+			if (agentPrefab != null)
 			{
-				agents.Add( new GameObject(name + "_" + i, typeof(Agent)).GetComponent<Agent>() );
-				agents[i].transform.parent = transform;
-				agents[i].transform.position = GetPositionForIndex( i );
-				agents[i].transform.rotation = GetRotationForIndex( i );
-				agents[i].Init();
+				int n = Random.Range( count - variation, count + variation );
+
+				Agent agent;
+				agents = new List<Agent>();
+				for (int i = 0; i < n; i++)
+				{
+					agent = Instantiate( agentPrefab ).GetComponent<Agent>();
+					agent.transform.parent = transform;
+					agent.transform.position = GetPositionForIndex( i );
+					agent.transform.rotation = GetRotationForIndex( i );
+
+					agents.Add( agent );
+					agent.Init();
+				}
 			}
 		}
 

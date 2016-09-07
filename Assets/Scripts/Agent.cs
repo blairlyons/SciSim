@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace SciSim
 {
 	public class Agent : MonoBehaviour 
 	{
+		public List<Visualization> visualizationPrefabs = new List<Visualization>();
+
 		Factory _factory;
 		public Factory factory
 		{
@@ -59,7 +62,7 @@ namespace SciSim
 					Destroy( visualization.gameObject );
 				}
 
-				Visualization prefab = factory.visualizationPrefabs.Find( viz => viz.resolution == currentResolution );
+				Visualization prefab = visualizationPrefabs.Find( viz => viz.resolution == currentResolution );
 				if (prefab != null)
 				{
 					visualization = (Instantiate( prefab.gameObject, transform.position, transform.rotation ) as GameObject).GetComponent<Visualization>();

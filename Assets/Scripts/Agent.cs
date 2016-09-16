@@ -7,7 +7,7 @@ namespace SciSim
 	public class Agent : MonoBehaviour 
 	{
 		public List<Visualization> visualizationPrefabs = new List<Visualization>();
-
+		public Container container;
 		Factory _factory;
 		public Factory factory
 		{

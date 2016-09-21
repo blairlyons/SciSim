@@ -34,7 +34,7 @@ namespace SciSim
 
 		public void MakeAgents ()
 		{
-			if (agentPrefab != null)
+			if (agentPrefab != null && pattern != null)
 			{
 				int n = Random.Range( count - variation, count + variation );
 
@@ -44,8 +44,8 @@ namespace SciSim
 				{
 					agent = Instantiate( agentPrefab ).GetComponent<Agent>();
 					agent.transform.parent = transform;
-					agent.transform.position = GetPositionForIndex( i );
-					agent.transform.rotation = GetRotationForIndex( i );
+					agent.transform.position = GetPositionForIndex( i, n );
+					agent.transform.rotation = GetRotationForIndex( i, n );
 
 					agents.Add( agent );
 					agent.Init();
@@ -53,14 +53,14 @@ namespace SciSim
 			}
 		}
 
-		Vector3 GetPositionForIndex (int index)
+		Vector3 GetPositionForIndex (int index, int n)
 		{
-			return container.transform.position + pattern.GetPositionInContainerForIndex( container, index );
+			return container.transform.position + pattern.GetPositionInContainer( container, index, n );
 		}
 
-		Quaternion GetRotationForIndex (int index)
+		Quaternion GetRotationForIndex (int index, int n)
 		{
-			return container.transform.rotation * pattern.GetRotationInContainerForIndex( container, index );
+			return container.transform.rotation * pattern.GetRotationInContainer( container, index, n );
 		}
 	}
 }

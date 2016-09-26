@@ -23,20 +23,20 @@ namespace BehaviorDesigner.Runtime.Tasks.Basic.Math
 
 		public override TaskStatus OnUpdate()
 		{
-			Vector3 result;
+			Vector3 random = Vector3.zero;
 
 			if (inclusive) {
-				result = new Vector3( Random.Range( min.Value.x, max.Value.x + 1 ), Random.Range( min.Value.y, max.Value.y + 1 ), Random.Range( min.Value.z, max.Value.z + 1 ) );
+				random = new Vector3( Random.Range( min.Value.x, max.Value.x + 1 ), Random.Range( min.Value.y, max.Value.y + 1 ), Random.Range( min.Value.z, max.Value.z + 1 ) );
 			} else {
-				result = new Vector3( Random.Range( min.Value.x, max.Value.x ), Random.Range( min.Value.y, max.Value.y ), Random.Range( min.Value.z, max.Value.z ) );
+				random = new Vector3( Random.Range( min.Value.x, max.Value.x ), Random.Range( min.Value.y, max.Value.y ), Random.Range( min.Value.z, max.Value.z ) );
 			}
 
 			if (useAnchor.Value)
 			{
-				result = anchor.Value + Vector3.ClampMagnitude( result - anchor.Value, maxDistanceFromAnchor.Value );
+				random = anchor.Value + Vector3.ClampMagnitude( random - anchor.Value, maxDistanceFromAnchor.Value );
 			}
-			Debug.Log("Random position = " + result);
-			storeResult.Value = result;
+
+			storeResult.Value = random;
 			return TaskStatus.Success;
 		}
 

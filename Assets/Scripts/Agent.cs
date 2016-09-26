@@ -6,9 +6,10 @@ namespace SciSim
 {
 	public class Agent : MonoBehaviour 
 	{
-		public float size = 5E9f; //meters
+		public float size;
+		public Units units;
 		public List<Visualization> visualizationPrefabs = new List<Visualization>();
-		public Container container;
+
 		Factory _factory;
 		public Factory factory
 		{
@@ -51,7 +52,13 @@ namespace SciSim
 
 		public void Init () 
 		{
+			SetScale();
 			Visualize();
+		}
+
+		void SetScale ()
+		{
+			transform.localScale = size * ScaleUtility.MultiplierFromMeters( factory.container.units ) / ScaleUtility.MultiplierFromMeters( units ) * Vector3.one;
 		}
 
 		void Visualize ()
@@ -66,11 +73,17 @@ namespace SciSim
 				Visualization prefab = visualizationPrefabs.Find( viz => viz.resolution == currentResolution );
 				if (prefab != null)
 				{
-					visualization = (Instantiate( prefab.gameObject, transform.position, transform.rotation ) as GameObject).GetComponent<Visualization>();
-					visualization.transform.SetParent( transform );
+					CreateVisualization( prefab.gameObject );
 					AddAmbientAnimation();
 				}
 			}
+		}
+
+		void CreateVisualization (GameObject prefab)
+		{
+			visualization = (Instantiate( prefab, transform.position, transform.rotation ) as GameObject).GetComponent<Visualization>();
+			visualization.transform.SetParent( transform );
+			visualization.transform.localScale = Vector3.one;
 		}
 
 		void AddAmbientAnimation ()
@@ -78,7 +91,8 @@ namespace SciSim
 			Animator animation = visualization.gameObject.AddComponent<Animator>();
 			animation.runtimeAnimatorController = Resources.Load("Animation/Ambient") as RuntimeAnimatorController;
 			animation.SetFloat( "randomTimeOffset", Random.Range( 0, 1f ) );
-			animation.SetFloat( "sizeOffset", 0.3f );
+			animation.SetFloat( "sizeOffset", 0.5f / transform.localScale.x );
+			animation.SetFloat( "speed", 1f / transform.localScale.x );
 		}
 	}
 }

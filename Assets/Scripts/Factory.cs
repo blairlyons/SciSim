@@ -43,7 +43,7 @@ namespace SciSim
 				for (int i = 0; i < n; i++)
 				{
 					agent = Instantiate( agentPrefab ).GetComponent<Agent>();
-					agent.transform.parent = transform;
+					agent.transform.SetParent( transform );
 					agent.transform.position = GetPositionForIndex( i, n );
 					agent.transform.rotation = GetRotationForIndex( i, n );
 

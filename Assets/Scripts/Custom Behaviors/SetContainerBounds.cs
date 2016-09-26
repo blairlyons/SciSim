@@ -5,7 +5,7 @@ namespace BehaviorDesigner.Runtime.Tasks.SciSim
 {
 	[TaskCategory("SciSim/Container")]
 	[TaskDescription("Sets variables to the container bounds")]
-	public class SetValue : Action
+	public class SetContainerBounds : Action
 	{
 		[Tooltip("Gameobject for the agent")]
 		public SharedGameObject targetAgent;

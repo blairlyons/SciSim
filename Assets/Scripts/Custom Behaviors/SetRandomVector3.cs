@@ -2,9 +2,9 @@
 
 namespace BehaviorDesigner.Runtime.Tasks.Basic.Math
 {
-	[TaskCategory("Basic/Math")]
+	[TaskCategory("SciSim/Math")]
 	[TaskDescription("Sets a random Vector3 value")]
-	public class RandomVector3 : Action
+	public class SetRandomVector3 : Action
 	{
 		[Tooltip("The minimum location bounds")]
 		public SharedVector3 minLocation;

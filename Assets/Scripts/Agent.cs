@@ -40,14 +40,6 @@ namespace SciSim
 			}
 		}
 
-		bool VisualizationIsIncorrect
-		{
-			get 
-			{
-				return (visualization == null) || (visualization.resolution != currentResolution);
-			}
-		}
-
 		public Visualization visualization;
 
 		public void Init () 
@@ -63,19 +55,15 @@ namespace SciSim
 
 		void Visualize ()
 		{
-			if (VisualizationIsIncorrect)
+			if (visualization != null)
 			{
-				if (visualization != null)
-				{
-					Destroy( visualization.gameObject );
-				}
+				Destroy( visualization.gameObject );
+			}
 
-				Visualization prefab = visualizationPrefabs.Find( viz => viz.resolution == currentResolution );
-				if (prefab != null)
-				{
-					CreateVisualization( prefab.gameObject );
-					AddAmbientAnimation();
-				}
+			Visualization prefab = visualizationPrefabs.Find( viz => viz.resolution == currentResolution );
+			if (prefab != null)
+			{
+				CreateVisualization( prefab.gameObject );
 			}
 		}
 
@@ -84,15 +72,6 @@ namespace SciSim
 			visualization = (Instantiate( prefab, transform.position, transform.rotation ) as GameObject).GetComponent<Visualization>();
 			visualization.transform.SetParent( transform );
 			visualization.transform.localScale = Vector3.one;
-		}
-
-		void AddAmbientAnimation ()
-		{
-			Animator animation = visualization.gameObject.AddComponent<Animator>();
-			animation.runtimeAnimatorController = Resources.Load("Animation/Ambient") as RuntimeAnimatorController;
-			animation.SetFloat( "randomTimeOffset", Random.Range( 0, 1f ) );
-			animation.SetFloat( "sizeOffset", 0.5f / transform.localScale.x );
-			animation.SetFloat( "speed", 1f / transform.localScale.x );
 		}
 	}
 }

@@ -6,6 +6,7 @@ namespace SciSim
 {
 	public class Agent : MonoBehaviour 
 	{
+		public float size = 5E9f; //meters
 		public List<Visualization> visualizationPrefabs = new List<Visualization>();
 		public Container container;
 		Factory _factory;
@@ -66,9 +67,18 @@ namespace SciSim
 				if (prefab != null)
 				{
 					visualization = (Instantiate( prefab.gameObject, transform.position, transform.rotation ) as GameObject).GetComponent<Visualization>();
-					visualization.transform.parent = transform;
+					visualization.transform.SetParent( transform );
+					AddAmbientAnimation();
 				}
 			}
+		}
+
+		void AddAmbientAnimation ()
+		{
+			Animator animation = visualization.gameObject.AddComponent<Animator>();
+			animation.runtimeAnimatorController = Resources.Load("Animation/Ambient") as RuntimeAnimatorController;
+			animation.SetFloat( "randomTimeOffset", Random.Range( 0, 1f ) );
+			animation.SetFloat( "sizeOffset", 0.3f );
 		}
 	}
 }

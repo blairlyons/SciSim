@@ -34,6 +34,11 @@ namespace BehaviorDesigner.Runtime.Tasks.SciSim
 				return TaskStatus.Running;
 			}
 
+			if (agent.visualization.GetComponent<Animator>())
+			{
+				return TaskStatus.Success;
+			}
+
 			Animator animation = agent.visualization.gameObject.AddComponent<Animator>();
 			animation.runtimeAnimatorController = Resources.Load("Animation/Ambient") as RuntimeAnimatorController;
 			animation.SetFloat( "randomTimeOffset", Random.Range( 0, 1f ) );

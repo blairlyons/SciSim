@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using BehaviorDesigner.Runtime;
 
 namespace SciSim
 {
@@ -8,6 +9,7 @@ namespace SciSim
 	{
 		public float size;
 		public Units units;
+		public ExternalBehavior behavior;
 		public List<Visualization> visualizationPrefabs = new List<Visualization>();
 
 		Factory _factory;
@@ -45,12 +47,18 @@ namespace SciSim
 		public void Init () 
 		{
 			SetScale();
+			AddBehavior();
 			Visualize();
 		}
 
 		void SetScale ()
 		{
 			transform.localScale = size * ScaleUtility.MultiplierFromMeters( factory.container.units ) / ScaleUtility.MultiplierFromMeters( units ) * Vector3.one;
+		}
+
+		void AddBehavior ()
+		{
+			//TODO
 		}
 
 		void Visualize ()

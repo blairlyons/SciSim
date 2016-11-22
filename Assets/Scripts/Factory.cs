@@ -44,8 +44,8 @@ namespace SciSim
 				{
 					agent = Instantiate( agentPrefab ).GetComponent<Agent>();
 					agent.transform.SetParent( transform );
-					agent.transform.position = GetPositionForIndex( i, n );
-					agent.transform.rotation = GetRotationForIndex( i, n );
+					agent.transform.position = GetPosition( i, n );
+					agent.transform.rotation = GetRotation( i, n );
 
 					agents.Add( agent );
 					agent.Init();
@@ -53,14 +53,14 @@ namespace SciSim
 			}
 		}
 
-		Vector3 GetPositionForIndex (int index, int n)
+		Vector3 GetPosition (int index, int n)
 		{
-			return container.transform.position + pattern.GetPositionInContainer( container, index, n );
+			return container.transform.position + pattern.GetPosition( container, index, n );
 		}
 
-		Quaternion GetRotationForIndex (int index, int n)
+		Quaternion GetRotation (int index, int n)
 		{
-			return container.transform.rotation * pattern.GetRotationInContainer( container, index, n );
+			return container.transform.rotation * pattern.GetRotation( container, index, n );
 		}
 	}
 }

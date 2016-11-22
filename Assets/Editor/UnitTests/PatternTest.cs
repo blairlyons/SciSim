@@ -25,7 +25,7 @@ public class PatternTest
 		Bounds bounds = testContainer.bounds;
 		for (int i = 0; i < 50; i++)
 		{
-			Vector3 pos = pattern.GetPositionInContainer( testContainer, i, 50 );
+			Vector3 pos = pattern.GetPosition( testContainer, i, 50 );
 			if (!bounds.Contains(pos))
 			{
 				Assert.Fail();

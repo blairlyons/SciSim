@@ -8,7 +8,6 @@ using System.Reflection;
 using UnityEngine;
 using UnityTest.IntegrationTestRunner;
 using System.IO;
-using UnityEngine.SceneManagement;
 
 namespace UnityTest
 {
@@ -75,7 +74,7 @@ namespace UnityTest
             }
 
             TestComponent.DestroyAllDynamicTests();
-            var dynamicTestTypes = TestComponent.GetTypesWithHelpAttribute(SceneManager.GetActiveScene().name);
+            var dynamicTestTypes = TestComponent.GetTypesWithHelpAttribute(Application.loadedLevelName);
             foreach (var dynamicTestType in dynamicTestTypes)
                 TestComponent.CreateDynamicTest(dynamicTestType);
 
@@ -307,23 +306,14 @@ namespace UnityTest
 
 
             TestSceneNumber += 1;
-            string testScene = m_Configurator.GetIntegrationTestScenes(TestSceneNumber);
+            string testScene = m_Configurator.GetIntegrationTestScenes (TestSceneNumber);
 
             if (testScene != null)
-                SceneManager.LoadScene(Path.GetFileNameWithoutExtension(testScene));
+                Application.LoadLevel(Path.GetFileNameWithoutExtension(testScene));
             else
             {
                 TestRunnerCallback.AllScenesFinished();
                 k_ResultRenderer.ShowResults();
-
-#if UNITY_EDITOR
-                var prevScenes = m_Configurator.GetPreviousScenesToRestore();
-                if(prevScenes!=null)
-                {
-                    UnityEditor.EditorBuildSettings.scenes = prevScenes;
-                }
-#endif
-
                 if (m_Configurator.isBatchRun && m_Configurator.sendResultsOverNetwork)
                     Application.Quit();
             }
@@ -373,7 +363,7 @@ namespace UnityTest
             currentTest = null;
             if (!testResult.IsSuccess
                 && testResult.Executed
-                && !testResult.IsIgnored) k_ResultRenderer.AddResults(SceneManager.GetActiveScene().name, testResult);
+                && !testResult.IsIgnored) k_ResultRenderer.AddResults(Application.loadedLevelName, testResult);
         }
 
         #region Test Runner Helpers

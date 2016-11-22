@@ -6,7 +6,6 @@ using System.Net;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
-using UnityEngine.SceneManagement;
 
 namespace UnityTest.IntegrationTests
 {
@@ -19,9 +18,7 @@ namespace UnityTest.IntegrationTests
         private List<string> m_OtherScenesToBuild;
         private List<string> m_AllScenesInProject;
 
-        private Vector2 m_ScrollPositionIntegrationTests;
-        private Vector2 m_ScrollPositionOtherScenes;
-        private Vector2 m_ScrollPositionAllScenes;
+        private Vector2 m_ScrollPosition;
         private readonly List<string> m_Interfaces = new List<string>();
         private readonly List<string> m_SelectedScenes = new List<string>();
 
@@ -37,7 +34,7 @@ namespace UnityTest.IntegrationTests
 
         readonly GUIContent m_Label = new GUIContent("Results target directory", "Directory where the results will be saved. If no value is specified, the results will be generated in project's data folder.");
         
-        void Awake()
+        public PlatformRunnerSettingsWindow()
         {
             if (m_OtherScenesToBuild == null)
                 m_OtherScenesToBuild = new List<string> ();
@@ -50,7 +47,7 @@ namespace UnityTest.IntegrationTests
             position.Set(position.xMin, position.yMin, 200, position.height);
             m_AllScenesInProject = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.unity", SearchOption.AllDirectories).ToList();
             m_AllScenesInProject.Sort();
-            var currentScene = (Directory.GetCurrentDirectory() + SceneManager.GetActiveScene().path).Replace("\\", "").Replace("/", "");
+            var currentScene = (Directory.GetCurrentDirectory() + EditorApplication.currentScene).Replace("\\", "").Replace("/", "");
             var currentScenePath = m_AllScenesInProject.Where(s => s.Replace("\\", "").Replace("/", "") == currentScene);
             m_SelectedScenes.AddRange(currentScenePath);
 
@@ -94,7 +91,7 @@ namespace UnityTest.IntegrationTests
                     }
                     EditorGUI.EndDisabledGroup();
 
-                    DrawVerticalSceneList (ref m_IntegrationTestScenes, ref m_SelectedSceneInTest, ref m_ScrollPositionIntegrationTests);
+                    DrawVerticalSceneList (ref m_IntegrationTestScenes, ref m_SelectedSceneInTest);
                     EditorGUILayout.EndVertical ();
         
                     // Extra scenes to include in build
@@ -110,14 +107,14 @@ namespace UnityTest.IntegrationTests
                     }
                     EditorGUI.EndDisabledGroup();
 
-                    DrawVerticalSceneList (ref m_OtherScenesToBuild, ref m_SelectedSceneInBuild, ref m_ScrollPositionOtherScenes);
+                    DrawVerticalSceneList (ref m_OtherScenesToBuild, ref m_SelectedSceneInBuild);
                     EditorGUILayout.EndVertical ();
 
                     EditorGUILayout.Separator ();
 
                     // All Scenes
                     EditorGUILayout.BeginVertical ();
-                    label = new GUIContent("Available Scenes", "These are all the scenes within your project, please select some to run tests");
+                    label = new GUIContent("Availble Scenes", "These are all the scenes within your project, please select some to run tests");
                     EditorGUILayout.LabelField(label, EditorStyles.boldLabel, GUILayout.Height(20f));
 
             
@@ -138,7 +135,7 @@ namespace UnityTest.IntegrationTests
 
                     EditorGUILayout.EndHorizontal ();
 
-                    DrawVerticalSceneList (ref m_AllScenesInProject, ref m_SelectedSceneInAll, ref m_ScrollPositionAllScenes);
+                    DrawVerticalSceneList (ref m_AllScenesInProject, ref m_SelectedSceneInAll);
                     EditorGUILayout.EndVertical ();
                     
             // ButtoNetworkResultsReceiverns to edit scenes in lists
@@ -171,9 +168,9 @@ namespace UnityTest.IntegrationTests
             }
         }
 
-        private void DrawVerticalSceneList(ref List<string> sourceList, ref string selectString, ref Vector2 scrollPosition)
+        private void DrawVerticalSceneList(ref List<string> sourceList, ref string selectString)
         {
-			scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, Styles.testList);
+            m_ScrollPosition = EditorGUILayout.BeginScrollView(m_ScrollPosition, Styles.testList);
             EditorGUI.indentLevel++;
             foreach (var scenePath in sourceList)
             {
@@ -200,7 +197,7 @@ namespace UnityTest.IntegrationTests
 
         public static List<string> GetScenesWithTestComponents(List<string> allScenes)
         {
-            List<Object> results = EditorReferencesUtil.FindScenesWhichContainAsset("TestComponent.cs");    
+            List<Object> results = EditorReferencesUtil.FindScenesWhichContainAsset("TestComponent.cs");	
             List<string> integrationTestScenes = new List<string>();
             
             foreach (Object obj in results) {
@@ -250,10 +247,8 @@ namespace UnityTest.IntegrationTests
                     else if (m_Settings.port < IPEndPoint.MinPort)
                         m_Settings.port = IPEndPoint.MinPort;
                 }
+                EditorGUI.EndDisabledGroup();
             }
-
-            EditorGUI.EndDisabledGroup();
-
             if (EditorGUI.EndChangeCheck())
             {
                 m_Settings.Save();
@@ -269,7 +264,7 @@ namespace UnityTest.IntegrationTests
                 buildTarget = m_BuildTarget,
                 buildScenes = m_OtherScenesToBuild,
                 testScenes = m_IntegrationTestScenes,
-                projectName = m_IntegrationTestScenes.Count > 1 ? "IntegrationTests" : Path.GetFileNameWithoutExtension(SceneManager.GetActiveScene().path),
+                projectName = m_IntegrationTestScenes.Count > 1 ? "IntegrationTests" : Path.GetFileNameWithoutExtension(EditorApplication.currentScene),
                 resultsDir = m_Settings.resultsPath,
                 sendResultsOverNetwork = m_Settings.sendResultsOverNetwork,
                 ipList = m_Interfaces.Skip(1).ToList(),

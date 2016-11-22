@@ -5,12 +5,12 @@ namespace SciSim
 {
 	public class Pattern : ScriptableObject 
 	{
-		public virtual Vector3 GetPositionInContainer (Container container, int index, int n)
+		public virtual Vector3 GetPosition (Container container, int index, int n)
 		{
 			return Vector3.zero;
 		}
 
-		public virtual Quaternion GetRotationInContainer (Container container, int index, int n)
+		public virtual Quaternion GetRotation (Container container, int index, int n)
 		{
 			return Quaternion.identity;
 		}

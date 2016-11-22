@@ -1,7 +1,3 @@
-// Upgrade NOTE: commented out 'float4x4 _CameraToWorld', a built-in variable
-// Upgrade NOTE: replaced '_CameraToWorld' with 'unity_CameraToWorld'
-// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
-
 
 /*
 
@@ -34,15 +30,15 @@ Shader "AngryBots/Character/EnemySelfIlluminationReflective" {
 	uniform samplerCUBE _Cube;
 	uniform fixed _SelfIllumStrength;
 	uniform sampler2D _BumpMap;
-	// uniform float4x4 _CameraToWorld;
+	uniform float4x4 _CameraToWorld;
 	
 	half3 VertexLightsWorldSpace (half3 WP, half3 WN)
 	{
 		half3 lightColor = half3(0.0,0.0,0.0);
 
 		// preface & optimization
-		half3 toLight0 = mul(unity_CameraToWorld, unity_LightPosition[0] * half4(1,1,-1,1)).xyz - WP;
-		half3 toLight1 = mul(unity_CameraToWorld, unity_LightPosition[1] * half4(1,1,-1,1)).xyz - WP;
+		half3 toLight0 = mul(_CameraToWorld, unity_LightPosition[0] * half4(1,1,-1,1)).xyz - WP;
+		half3 toLight1 = mul(_CameraToWorld, unity_LightPosition[1] * half4(1,1,-1,1)).xyz - WP;
 		half2 lengthSq2 = half2(dot(toLight0, toLight0), dot(toLight1, toLight1));
 
 		half2 atten2 = half2(1.0,1.0) + lengthSq2 * half2(unity_LightAtten[0].z, unity_LightAtten[1].z);
@@ -91,8 +87,8 @@ Shader "AngryBots/Character/EnemySelfIlluminationReflective" {
 				
 				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
 				
-				half3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
-				half3 worldNormal = mul((half3x3)unity_ObjectToWorld, v.normal.xyz);
+				half3 worldPos = mul(_Object2World, v.vertex).xyz;
+				half3 worldNormal = mul((half3x3)_Object2World, v.normal.xyz);
 				
 				o.color = VertexLightsWorldSpace(worldPos, worldNormal);
 				
@@ -148,7 +144,7 @@ Shader "AngryBots/Character/EnemySelfIlluminationReflective" {
 				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
 				o.uv.xy = TRANSFORM_TEX(v.texcoord, _MainTex);
 				o.reflDir = WorldSpaceViewDir (v.vertex);
-				o.reflDir = reflect (o.reflDir, mul((half3x3)unity_ObjectToWorld, v.normal.xyz));
+				o.reflDir = reflect (o.reflDir, mul((half3x3)_Object2World, v.normal.xyz));
 				return o; 
 			}
 			

@@ -6,7 +6,7 @@ namespace SciSim
 	[CreateAssetMenu( fileName = "RandomPattern", menuName = "Patterns/Random Pattern", order = 3 )]
 	public class RandomPattern : Pattern 
 	{
-		public override Vector3 GetPositionInContainer (Container container, int index, int n)
+		public override Vector3 GetPosition (Container container, int index, int n)
 		{
 			Vector3 center = container.bounds.center;
 			Vector3 extents = container.bounds.extents;
@@ -18,7 +18,7 @@ namespace SciSim
 			return new Vector3( x, y, z );
 		}
 
-		public override Quaternion GetRotationInContainer (Container container, int index, int n)
+		public override Quaternion GetRotation (Container container, int index, int n)
 		{
 			return Random.rotation;
 		}

@@ -174,7 +174,6 @@ public class SteamVR_SkyboxEditor : Editor
 					assetPath = AssetDatabase.GUIDToAssetPath(guid);
 				}
 #endif
-				var assetPath = "";
 				var camera = target.GetComponent<Camera>();
 				if (camera == null)
 				{
@@ -365,7 +364,6 @@ public class SteamVR_SkyboxEditor : Editor
 				var scenePath = Path.GetDirectoryName(targetScene.path);
 				var assetPath = scenePath + "/" + sceneName;
 #endif
-				var assetPath = "";
 				for (int i = 0; i < 2; i++)
 				{
 					var assetName = string.Format(nameFormat, assetPath, target.name, i);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using UnityEditor.SceneManagement;
 
 namespace UnityTest
 {
@@ -23,7 +24,7 @@ namespace UnityTest
         private readonly GUIContent m_GUIRepeatCheckFrameGuiContent = new GUIContent("Repeat check", "Should the check be repeated.");
         #endregion
 
-		private static List<Type> allComparersList = null;
+        private static List<Type> allComparersList = null;
 
         public AssertionComponentEditor()
         {
@@ -81,6 +82,8 @@ namespace UnityTest
                     DrawCompareToType(script.Action as ComparerBase);
                 }
             }
+            if(GUI.changed)
+                EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         }
 
         private void DrawOptionsForAfterPeriodOfTime(AssertionComponent script)

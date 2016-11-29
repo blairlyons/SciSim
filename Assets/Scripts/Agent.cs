@@ -5,7 +5,7 @@ using BehaviorDesigner.Runtime;
 
 namespace SciSim
 {
-	public class Agent : MonoBehaviour 
+	public class Agent : MonoBehaviour, IAgent
 	{
 		public float size;
 		public Units units;
@@ -80,6 +80,11 @@ namespace SciSim
 			visualization = (Instantiate( prefab, transform.position, transform.rotation ) as GameObject).GetComponent<Visualization>();
 			visualization.transform.SetParent( transform );
 			visualization.transform.localScale = Vector3.one;
+		}
+
+		public virtual bool IsSameAgent (IAgent other)
+		{
+			return other.GetType() == GetType();
 		}
 	}
 }

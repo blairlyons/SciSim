@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace SciSim
 {
-	public class Pattern : ScriptableObject 
+	public class Pattern : ScriptableObject, IPattern
 	{
 		public virtual Vector3 GetPosition (Container container, int index, int n)
 		{

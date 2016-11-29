@@ -24,7 +24,7 @@ namespace BehaviorDesigner.Runtime.Tasks
 			collidingObjects.Clear();
 		}
 
-		public void OnTriggerEnter (Collider other)
+		public override void OnTriggerEnter (Collider other)
 		{
 			Debug.Log("collision");
 			if (other.gameObject.layer == layer.Value) 
@@ -35,7 +35,7 @@ namespace BehaviorDesigner.Runtime.Tasks
 			}
 		}
 
-		public void OnTriggerExit (Collider other)
+		public override void OnTriggerExit (Collider other)
 		{
 			Debug.Log("exit");
 			if (collidingObjects.Contains( other.gameObject )) 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SciSim
 {
-	public class Factory : MonoBehaviour 
+	public class Factory : MonoBehaviour, IFactory
 	{
 		public int count;
 		public int variation;

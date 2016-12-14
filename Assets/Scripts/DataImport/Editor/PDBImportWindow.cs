@@ -69,6 +69,19 @@ namespace SciSim
 		void ImportTextData ()
 		{
 			PDBImporter importer = new PDBImporter(pdbData);
+			SavePDBAsset(importer.molecule);
+		}
+
+		void SavePDBAsset (PDBAsset molecule)
+		{
+			string path = EditorUtility.SaveFilePanel("Save Molecule", "Assets/Molecules", "newMolecule", "asset");
+			path = path.Substring(path.IndexOf("Assets"));
+
+			AssetDatabase.CreateAsset(molecule, path);
+			AssetDatabase.SaveAssets();
+
+			EditorUtility.FocusProjectWindow();
+			Selection.activeObject = molecule;
 		}
 	}
 }

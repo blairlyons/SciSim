@@ -53,6 +53,10 @@ namespace SciSim
 
 			if (!string.IsNullOrEmpty(pdbData))
 			{
+				if (download) 
+				{
+					GUILayout.Label("Downloaded " + pdbID + " Successfully", EditorStyles.miniLabel);
+				}
 				if (GUILayout.Button("Import"))
 				{
 					ImportTextData();

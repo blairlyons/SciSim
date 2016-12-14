@@ -1,33 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
-//using UnityEditor;
 
 namespace SciSim
 {
 	public class PDBImporter : Importer
 	{
-		string rawData;
 		public PDBAsset molecule;
 
 		public PDBImporter (string data)
 		{
-			rawData = data;
+			molecule = ScriptableObject.CreateInstance<PDBAsset>();
+			molecule.rawData = data;
 
-			CreateMolecule();
 			ParseData();
 			CenterAtoms();
-		}
-
-		void CreateMolecule ()
-		{
-			molecule = ScriptableObject.CreateInstance<PDBAsset>();
-			molecule.rawData = rawData;
 		}
 
 		void ParseData ()
 		{
 			int i = 0;
-			string[] lines = rawData.Split ('\n');
+			string[] lines = molecule.rawData.Split ('\n');
 			foreach (string line in lines) 
 			{
 				PDBAtom newAtom = ParseLine(i, line);
@@ -59,9 +51,9 @@ namespace SciSim
 					int atomNumber, residueNumber;
 					int.TryParse(atomNumberString, out atomNumber);
 					int.TryParse(residueNumberString, out residueNumber);
-					Vector3 position = ParsePosition(xPositionString, yPositionString, zPositionString);
-					Element elementType = ParseElementType(elementTypeString);
-					AminoAcid residueType = ParseResidueType(residueTypeString);
+					Vector3 position = ParsePosition(xPositionString, yPositionString, zPositionString, index);
+					Element elementType = ParseElementType(elementTypeString, index);
+					Residue residueType = ParseResidueType(residueTypeString, index);
 
 					return new PDBAtom(index, chainID, residueNumber, residueType, atomNumber, elementType, position);
 				}
@@ -69,7 +61,7 @@ namespace SciSim
 			return null;
 		}
 
-		Vector3 ParsePosition (string xPositionString, string yPositionString, string zPositionString)
+		Vector3 ParsePosition (string xPositionString, string yPositionString, string zPositionString, int index)
 		{
 			float xPosition = 0;
 			float yPosition = 0;
@@ -82,13 +74,13 @@ namespace SciSim
 			} 
 			catch (System.Exception e) 
 			{
-				Debug.LogWarning ("Exception while parsing position from PDB: " + e.Message);
+				Debug.LogWarning ("Exception while parsing position @ line " + index + ": " + e.Message);
 			}
 
 			return new Vector3(xPosition, yPosition, zPosition);
 		}
 
-		Element ParseElementType (string type)
+		Element ParseElementType (string type, int index)
 		{
 			try 
 			{
@@ -96,21 +88,21 @@ namespace SciSim
 			} 
 			catch (System.Exception e) 
 			{
-				Debug.LogWarning ("Exception while parsing element type " + type + ": " + e.Message);
+				Debug.LogWarning ("Exception while parsing element type " + type + " @ line " + index + ": " + e.Message);
 				return Element.none;
 			}
 		}
 
-		AminoAcid ParseResidueType (string type)
+		Residue ParseResidueType (string type, int index)
 		{
 			try 
 			{
-				return (AminoAcid)System.Enum.Parse(typeof(AminoAcid), type);
+				return (Residue)System.Enum.Parse(typeof(Residue), type);
 			} 
 			catch (System.Exception e) 
 			{
-				Debug.LogWarning ("Exception while parsing residue type " + type + ": " + e.Message);
-				return AminoAcid.none;
+				Debug.LogWarning ("Exception while parsing residue type " + type + " @ line " + index + ": " + e.Message);
+				return Residue.none;
 			}
 		}
 

@@ -25,13 +25,13 @@ namespace SciSim
 		public int index;
 		public string chainID;
 		public int residueNumber;
-		public AminoAcid residueType;
+		public Residue residueType;
 		public int atomNumber;
 		public Element elementType;
 		public Vector3 localPosition;
 
 
-		public PDBAtom (int _index, string _chainID, int _residueNumber, AminoAcid _residueType, int _atomNumber, Element _elementType, Vector3 _localPosition)
+		public PDBAtom (int _index, string _chainID, int _residueNumber, Residue _residueType, int _atomNumber, Element _elementType, Vector3 _localPosition)
 		{
 			index = _index;
 			chainID = _chainID;

@@ -14,7 +14,7 @@ namespace SciSim
 		H
 	}
 
-	public enum AminoAcid
+	public enum Residue
 	{
 		none,
 		ALA,
@@ -36,6 +36,10 @@ namespace SciSim
 		THR,
 		TRP,
 		TYR,
-		VAL
+		VAL,
+		DG,
+		DC,
+		DA,
+		DT
 	}
 }

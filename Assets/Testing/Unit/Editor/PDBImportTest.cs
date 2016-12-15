@@ -7,6 +7,7 @@ using System.Collections.Generic;
 public class PDBImportTest 
 {
 	int maxStructuresToTest = 5;
+	int randomAtomsToTestPerStructure = 20;
 
 	[Test]
 	public void ResiduesAreInCorrectOrder ()
@@ -17,7 +18,6 @@ public class PDBImportTest
 			{
 				if (!ResidueSequenceMatchesAtoms(importer))
 				{
-					Debug.Log(importer.molecule.pdbID + " failed");
 					Assert.Fail();
 				}
 			}
@@ -51,9 +51,37 @@ public class PDBImportTest
 	{
 		if (testImporters.Length > 0)
 		{
-			Assert.Pass();
+			foreach (PDBImporter importer in testImporters) 
+			{
+				if (!RandomAtomsAreCorrect(importer))
+				{
+					Debug.Log(importer.molecule.pdbID + " failed");
+					Assert.Fail();
+				}
+			}
 		}
-		Assert.Fail();
+		Assert.Pass();
+	}
+
+	bool RandomAtomsAreCorrect (PDBImporter importer)
+	{
+		PDBAtom testAtom;
+		for (int i = 0; i < randomAtomsToTestPerStructure; i++)
+		{
+			string line = importer.lines[Random.Range(0, importer.lines.Length)];
+			if (line.Substring(0, 6).Trim().Equals("ATOM")) 
+			{
+				testAtom = importer.ParseAtom(-1, line);
+				testAtom.localPosition -= importer.molecule.centerOffset;
+				PDBAtom realAtom = importer.molecule.atoms.Find( a => a.atomNumber == testAtom.atomNumber );
+				if (!realAtom.EqualsAtom(testAtom))
+				{
+					return false;
+				}
+//				Debug.Log(realAtom.ToString() + " PASSED");
+			}
+		}
+		return true;
 	}
 
 	#region ----------------------------------------------------- Test Molecules

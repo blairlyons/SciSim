@@ -72,7 +72,7 @@ namespace SciSim
 			}
 		}
 
-		PDBAtom ParseAtom (int index, string lineData)
+		public PDBAtom ParseAtom (int index, string lineData)
 		{
 			//record
 			string chainID = lineData.Substring(21, 1);

@@ -46,5 +46,11 @@ namespace SciSim
 		{
 			return "atom#" + index + "-" + chainID + ":" + residueType + residueNumber + ":" + elementType + atomNumber;
 		}
+
+		public bool EqualsAtom (PDBAtom other)
+		{
+			return chainID == other.chainID && residueNumber == other.residueNumber && residueType == other.residueType
+				&& atomNumber == other.atomNumber && elementType == other.elementType && localPosition == other.localPosition;
+		}
 	}
 }

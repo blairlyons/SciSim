@@ -4,13 +4,26 @@ using UnityEditor;
 
 namespace SciSim
 {
-	public class PDBImportWindow : DownloadWindow
+	public class PDBImportWindow : EditorWindow
 	{
 		bool download = true;
 		string pdbID = "";
 		public string filePath = "";
 
 		string pdbData;
+
+		EditorDownloadHelper _downloader;
+		EditorDownloadHelper downloader
+		{
+			get 
+			{
+				if (_downloader == null)
+				{
+					_downloader = new EditorDownloadHelper();
+				}
+				return _downloader;
+			}
+		}
 
 		[MenuItem ("ScienceTools/Import/PDB", false, 16)]
 		public static void OpenPDBWindow ()
@@ -27,7 +40,7 @@ namespace SciSim
 				pdbID = GUILayout.TextField(pdbID);
 				if (GUILayout.Button("Download"))
 				{
-					StartDownload("http://files.rcsb.org/download/" + pdbID + ".pdb");
+					downloader.StartDownload("http://files.rcsb.org/download/" + pdbID + ".pdb", DownloadFinished);
 				}
 			}
 			else 
@@ -64,10 +77,10 @@ namespace SciSim
 			}
 		}
 
-		protected override void DownloadFinished ()
+		void DownloadFinished (string downloadedText)
 		{
-			Debug.Log("DOWNLOADED PDB: " + downloader.text);
-			pdbData = downloader.text;
+			Debug.Log("DOWNLOADED PDB: " + downloadedText);
+			pdbData = downloadedText;
 		}
 
 		void ImportTextData ()

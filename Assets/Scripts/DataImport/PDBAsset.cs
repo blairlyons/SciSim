@@ -6,6 +6,7 @@ namespace SciSim
 {
 	public class PDBAsset : ScriptableObject
 	{
+		public string pdbID;
 		public List<PDBAtom> atoms;
 		public string rawData;
 		public Vector3 centerOffset;
@@ -30,7 +31,6 @@ namespace SciSim
 		public Element elementType;
 		public Vector3 localPosition;
 
-
 		public PDBAtom (int _index, string _chainID, int _residueNumber, Residue _residueType, int _atomNumber, Element _elementType, Vector3 _localPosition)
 		{
 			index = _index;
@@ -40,6 +40,11 @@ namespace SciSim
 			atomNumber = _atomNumber;
 			elementType = _elementType;
 			localPosition = _localPosition;
+		}
+
+		public override string ToString ()
+		{
+			return "atom#" + index + "-" + chainID + ":" + residueType + residueNumber + ":" + elementType + atomNumber;
 		}
 	}
 }

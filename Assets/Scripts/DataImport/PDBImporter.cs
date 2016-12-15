@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace SciSim
 {
 	public class PDBImporter : Importer
 	{
 		public PDBAsset molecule;
+		public List<Residue> residueSequence;
+		public string[] lines;
 
 		public PDBImporter (string data)
 		{
@@ -19,7 +22,11 @@ namespace SciSim
 		void ParseData ()
 		{
 			int i = 0;
-			string[] lines = molecule.rawData.Split ('\n');
+			residueSequence = new List<Residue>();
+			lines = molecule.rawData.Split('\n');
+
+			molecule.pdbID = lines[0].Substring(62, 4);
+
 			foreach (string line in lines) 
 			{
 				PDBAtom newAtom = ParseLine(i, line);
@@ -29,36 +36,63 @@ namespace SciSim
 					i++;
 				}
 			}
+//			PrintResidueSequence();
 		}
 
 		PDBAtom ParseLine (int index, string lineData)
 		{
 			if (lineData.Length >= 54) 
 			{
-				if (lineData.Substring(0, 6).Trim().Equals("ATOM")) 
+				if (lineData.Substring(0, 6).Trim().Equals("SEQRES")) 
 				{
-					//read
-					string chainID = lineData.Substring(21, 1);
-					string residueNumberString = lineData.Substring(22, 4).Trim();
-					string residueTypeString = lineData.Substring(17, 3);
-					string atomNumberString = lineData.Substring(6, 5).Trim ();
-					string elementTypeString = lineData.Substring(13, 1);
-					string xPositionString = lineData.Substring(30, 8).Trim();
-					string yPositionString = lineData.Substring(38, 8).Trim();
-					string zPositionString = lineData.Substring(46, 8).Trim();
-
-					//parse
-					int atomNumber, residueNumber;
-					int.TryParse(atomNumberString, out atomNumber);
-					int.TryParse(residueNumberString, out residueNumber);
-					Vector3 position = ParsePosition(xPositionString, yPositionString, zPositionString, index);
-					Element elementType = ParseElementType(elementTypeString, index);
-					Residue residueType = ParseResidueType(residueTypeString, index);
-
-					return new PDBAtom(index, chainID, residueNumber, residueType, atomNumber, elementType, position);
+					ParseResidueSequence(lineData);
+				}
+				else if (lineData.Substring(0, 6).Trim().Equals("ATOM")) 
+				{
+					return ParseAtom(index, lineData);
 				}
 			}
 			return null;
+		}
+
+		void ParseResidueSequence (string lineData)
+		{
+			string resSeq = lineData.Substring(19, 51);
+			string[] residues = resSeq.Split(' ');
+			foreach (string residue in residues)
+			{
+				if (residue.Length > 2)
+				{
+					Residue res = ParseResidueType(residue, -1);
+					if (res != Residue.none) 
+					{
+						residueSequence.Add(res);
+					}
+				}
+			}
+		}
+
+		PDBAtom ParseAtom (int index, string lineData)
+		{
+			//record
+			string chainID = lineData.Substring(21, 1);
+			string residueNumberString = lineData.Substring(22, 4).Trim();
+			string residueTypeString = lineData.Substring(17, 3);
+			string atomNumberString = lineData.Substring(6, 5).Trim ();
+			string elementTypeString = lineData.Substring(13, 1);
+			string xPositionString = lineData.Substring(30, 8).Trim();
+			string yPositionString = lineData.Substring(38, 8).Trim();
+			string zPositionString = lineData.Substring(46, 8).Trim();
+
+			//parse
+			int atomNumber, residueNumber;
+			int.TryParse(atomNumberString, out atomNumber);
+			int.TryParse(residueNumberString, out residueNumber);
+			Vector3 position = ParsePosition(xPositionString, yPositionString, zPositionString, index);
+			Element elementType = ParseElementType(elementTypeString, index);
+			Residue residueType = ParseResidueType(residueTypeString, index);
+
+			return new PDBAtom(index, chainID, residueNumber, residueType, atomNumber, elementType, position);
 		}
 
 		Vector3 ParsePosition (string xPositionString, string yPositionString, string zPositionString, int index)
@@ -122,6 +156,16 @@ namespace SciSim
 			}
 			centerOffset /= molecule.atoms.Count;
 			molecule.centerOffset = centerOffset;
+		}
+
+		void PrintResidueSequence ()
+		{
+			string result = "";
+			foreach (Residue residue in residueSequence)
+			{
+				result += residue.ToString() + " ";
+			}
+			Debug.Log(result);
 		}
 	}
 }

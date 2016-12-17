@@ -90,13 +90,13 @@ namespace SciSim
 
 			emitter.Emit(particle, 1);
 		}
-			
+
 		bool morphing;
 		bool warned;
 
 		public void Morph (int goalStructure, float duration)
 		{
-			if (!morphing && goalStructure < structures.Length && structures[goalStructure] != null)
+			if (goalStructure < structures.Length && structures[goalStructure] != null)
 			{
 				if (!warned && structures[currentStructure].atoms.Count != structures[goalStructure].atoms.Count)
 				{
@@ -143,11 +143,24 @@ namespace SciSim
 		{
 			if (Time.time - lastTime > switchTime)
 			{
+				if (morphing)
+				{
+					CancelInvoke("EndMorph");
+				}
+
 				int goal = currentStructure + 1;
 				if (goal >= structures.Length) { goal = 0; }
 
-				morphDuration = Random.Range(0.1f, 0.5f);
-				switchTime = Random.Range(0.1f, 1f);
+				if (Random.Range(0, 1f) > 0.9f) //react
+				{
+					morphDuration = Random.Range(0.3f, 0.5f);
+					switchTime = morphDuration + 0.2f;
+				}
+				else //jitter
+				{
+					morphDuration = Random.Range(1.5f, 2.5f);
+					switchTime = Random.Range(0.1f, 0.2f);
+				}
 
 				Morph(goal, morphDuration);
 				lastTime = Time.time;

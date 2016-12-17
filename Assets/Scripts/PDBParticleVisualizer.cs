@@ -8,7 +8,8 @@ namespace SciSim
 	{
 		public bool renderOnStart = true;
 		public string emitterPrefabName = "DefaultParticleEmitter";
-		public PDBAsset pdbData;
+		public int currentStructure = 0;
+		public PDBAsset[] structures = new PDBAsset[1];
 
 		public float resolution = 0.5f;
 		public float atomSize = 10f;
@@ -52,9 +53,14 @@ namespace SciSim
 			}
 		}
 
+		void Update ()
+		{
+			TestMorph();
+		}
+
 		public void Render ()
 		{
-			if (pdbData != null && emitter != null)
+			if (structures.Length > 0 && structures[currentStructure] != null && emitter != null)
 			{
 				EmitAtoms();
 			}
@@ -62,7 +68,7 @@ namespace SciSim
 
 		void EmitAtoms ()
 		{
-			foreach (PDBAtom atom in pdbData.atoms)
+			foreach (PDBAtom atom in structures[currentStructure].atoms)
 			{
 				if (atom.index % Mathf.Ceil(1 / resolution) == 0)
 				{
@@ -83,6 +89,69 @@ namespace SciSim
 			particle.randomSeed = (uint)atomData.index;
 
 			emitter.Emit(particle, 1);
+		}
+			
+		bool morphing;
+		bool warned;
+
+		public void Morph (int goalStructure, float duration)
+		{
+			if (!morphing && goalStructure < structures.Length && structures[goalStructure] != null)
+			{
+				if (!warned && structures[currentStructure].atoms.Count != structures[goalStructure].atoms.Count)
+				{
+					Debug.LogWarning(name + " trying to morph to a structure with a different number of atoms!");
+					warned = true;
+				}
+
+				ParticleSystem.Particle[] particles = new ParticleSystem.Particle[emitter.particleCount];
+				int n = emitter.GetParticles(particles);
+				int index;
+				for (int i = 0; i < n; i++)
+				{
+					index = (int)particles[i].randomSeed;
+					if (index < structures[goalStructure].atoms.Count)
+					{
+						particles[i].velocity = (structures[goalStructure].atoms[index].localPosition - particles[i].position) / duration;
+					}
+				}
+				emitter.SetParticles(particles, n);
+				morphing = true;
+				currentStructure = goalStructure;
+
+				Invoke("EndMorph", duration);
+			}
+		}
+
+		void EndMorph ()
+		{
+			ParticleSystem.Particle[] particles = new ParticleSystem.Particle[emitter.particleCount];
+			int n = emitter.GetParticles(particles);
+			for (int i = 0; i < n; i++)
+			{
+				particles[i].velocity = Vector3.zero;
+			}
+			emitter.SetParticles(particles, n);
+			morphing = false;
+		}
+
+		float lastTime;
+		float morphDuration;
+		float switchTime;
+
+		void TestMorph ()
+		{
+			if (Time.time - lastTime > switchTime)
+			{
+				int goal = currentStructure + 1;
+				if (goal >= structures.Length) { goal = 0; }
+
+				morphDuration = Random.Range(0.1f, 0.5f);
+				switchTime = Random.Range(0.1f, 1f);
+
+				Morph(goal, morphDuration);
+				lastTime = Time.time;
+			}
 		}
 
 		// Single bond covalent atomic radii in angstroms
@@ -109,18 +178,8 @@ namespace SciSim
 				return 0.38f;
 
 			default :
-				return 0.1f;
+				return 1f;
 			}
-		}
-
-		public void Morph ()
-		{
-
-		}
-
-		void UnMorph ()
-		{
-
 		}
 	}
 

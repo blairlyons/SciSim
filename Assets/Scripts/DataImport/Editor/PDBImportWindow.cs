@@ -25,7 +25,7 @@ namespace SciSim
 			}
 		}
 
-		[MenuItem ("ScienceTools/Import/PDB", false, 16)]
+		[MenuItem ("ScienceTools/Import/PDB", false, 0)]
 		public static void OpenPDBWindow ()
 		{
 			EditorWindow.GetWindow(typeof(PDBImportWindow));

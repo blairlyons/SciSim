@@ -61,7 +61,7 @@ namespace SciSim
 		{
 			ParticleSystem.EmitParams particle = new ParticleSystem.EmitParams();
 
-			particle.position = atomData.localPosition;
+			particle.position = scale * atomData.localPosition;
 			particle.velocity = Vector3.zero;
 			particle.startLifetime = Mathf.Infinity;
 			particle.startColor = palette.ColorForElement(atomData.elementType);
@@ -81,7 +81,7 @@ namespace SciSim
 				index = (int)particles[i].randomSeed;
 				if (index < structures[goalStructure].atoms.Count)
 				{
-					particles[i].velocity = (structures[goalStructure].atoms[index].localPosition - particles[i].position) / duration;
+					particles[i].velocity = scale * (structures[goalStructure].atoms[index].localPosition - particles[i].position / scale) / duration;
 				}
 			}
 			emitter.SetParticles(particles, n);

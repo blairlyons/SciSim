@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 
 namespace SciSim
 {
@@ -9,6 +8,7 @@ namespace SciSim
 		public bool renderOnStart = true;
 		public int currentStructure = 0;
 		public PDBAsset[] structures = new PDBAsset[1];
+		public float scale = 1f;
 		public float resolution = 0.5f;
 		public float atomSize = 10f;
 		public MoleculePalette palette;
@@ -89,24 +89,5 @@ namespace SciSim
 				return 1f;
 			}
 		}
-	}
-
-	[CreateAssetMenu(fileName = "MoleculePalette", menuName = "ScienceTools/Colors/Molecule Palette", order = 1)]
-	[System.Serializable]
-	public class MoleculePalette : ScriptableObject
-	{
-		public List<AtomColor> atomColors = new List<AtomColor>();
-
-		public Color ColorForElement (Element element)
-		{
-			return atomColors.Find( a => a.element == element ).color;
-		}
-	}
-
-	[System.Serializable]
-	public class AtomColor
-	{
-		public Element element;
-		public Color color;
 	}
 }

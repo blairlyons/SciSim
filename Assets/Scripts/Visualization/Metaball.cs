@@ -46,9 +46,9 @@ namespace SciSim
 		public float[][] blobs;
 
 		/* Amount of divisions in mesh in each direction, Dimension will always be from -.5f to .5f in XYZ */
-		int _divisionsX = 30;
-		int _divisionsY = 30;
-		int _divisionsZ = 30;
+		int _divisionsX = 40;
+		int _divisionsY = 40;
+		int _divisionsZ = 40;
 
 		public int dimX {
 			get { return _divisionsX; }

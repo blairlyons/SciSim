@@ -4,16 +4,9 @@ using System.Collections.Generic;
 
 namespace SciSim
 {
-	public class PDBParticleVisualizer : MonoBehaviour 
+	public class ParticlePDBVisualizer : PDBVisualizer 
 	{
-		public bool renderOnStart = true;
 		public string emitterPrefabName = "DefaultParticleEmitter";
-		public int currentStructure = 0;
-		public PDBAsset[] structures = new PDBAsset[1];
-
-		public float resolution = 0.5f;
-		public float atomSize = 10f;
-		public MoleculePalette palette;
 
 		ParticleSystem _emitter;
 		ParticleSystem emitter 
@@ -45,20 +38,7 @@ namespace SciSim
 			}
 		}
 
-		void Start ()
-		{
-			if (renderOnStart)
-			{
-				Render();
-			}
-		}
-
-		void Update ()
-		{
-			TestMorph();
-		}
-
-		public void Render ()
+		public override void Render ()
 		{
 			if (structures.Length > 0 && structures[currentStructure] != null && emitter != null)
 			{
@@ -91,39 +71,23 @@ namespace SciSim
 			emitter.Emit(particle, 1);
 		}
 
-		bool morphing;
-		bool warned;
-
-		public void Morph (int goalStructure, float duration)
+		public override void StartMorph (int goalStructure, float duration)
 		{
-			if (goalStructure < structures.Length && structures[goalStructure] != null)
+			ParticleSystem.Particle[] particles = new ParticleSystem.Particle[emitter.particleCount];
+			int n = emitter.GetParticles(particles);
+			int index;
+			for (int i = 0; i < n; i++)
 			{
-				if (!warned && structures[currentStructure].atoms.Count != structures[goalStructure].atoms.Count)
+				index = (int)particles[i].randomSeed;
+				if (index < structures[goalStructure].atoms.Count)
 				{
-					Debug.LogWarning(name + " trying to morph to a structure with a different number of atoms!");
-					warned = true;
+					particles[i].velocity = (structures[goalStructure].atoms[index].localPosition - particles[i].position) / duration;
 				}
-
-				ParticleSystem.Particle[] particles = new ParticleSystem.Particle[emitter.particleCount];
-				int n = emitter.GetParticles(particles);
-				int index;
-				for (int i = 0; i < n; i++)
-				{
-					index = (int)particles[i].randomSeed;
-					if (index < structures[goalStructure].atoms.Count)
-					{
-						particles[i].velocity = (structures[goalStructure].atoms[index].localPosition - particles[i].position) / duration;
-					}
-				}
-				emitter.SetParticles(particles, n);
-				morphing = true;
-				currentStructure = goalStructure;
-
-				Invoke("EndMorph", duration);
 			}
+			emitter.SetParticles(particles, n);
 		}
 
-		void EndMorph ()
+		protected override void StopMorph ()
 		{
 			ParticleSystem.Particle[] particles = new ParticleSystem.Particle[emitter.particleCount];
 			int n = emitter.GetParticles(particles);
@@ -132,14 +96,13 @@ namespace SciSim
 				particles[i].velocity = Vector3.zero;
 			}
 			emitter.SetParticles(particles, n);
-			morphing = false;
 		}
 
 		float lastTime;
 		float morphDuration;
 		float switchTime;
 
-		void TestMorph ()
+		protected override void TestMorph ()
 		{
 			if (Time.time - lastTime > switchTime)
 			{
@@ -166,52 +129,5 @@ namespace SciSim
 				lastTime = Time.time;
 			}
 		}
-
-		// Single bond covalent atomic radii in angstroms
-		float SizeForElement (Element element)
-		{
-			switch (element)
-			{
-			case Element.C :
-				return 0.77f;
-
-			case Element.N :
-				return 0.75f;
-
-			case Element.O :
-				return 0.73f;
-
-			case Element.S :
-				return 0.102f;
-
-			case Element.P :
-				return 0.106f;
-
-			case Element.H :
-				return 0.38f;
-
-			default :
-				return 1f;
-			}
-		}
-	}
-
-	[CreateAssetMenu(fileName = "MoleculePalette", menuName = "ScienceTools/Colors/Molecule Palette", order = 1)]
-	[System.Serializable]
-	public class MoleculePalette : ScriptableObject
-	{
-		public List<AtomColor> atomColors = new List<AtomColor>();
-		
-		public Color ColorForElement (Element element)
-		{
-			return atomColors.Find( a => a.element == element ).color;
-		}
-	}
-
-	[System.Serializable]
-	public class AtomColor
-	{
-		public Element element;
-		public Color color;
 	}
 }

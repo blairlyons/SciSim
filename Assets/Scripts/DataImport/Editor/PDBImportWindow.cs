@@ -191,10 +191,9 @@ namespace SciSim
 			if (generator != null)
 			{
 				generator.CleanUp();
-				generator = null;
 			}
-			generator = new PDBMeshGenerator(atomResolution, moleculeScale, atomSize, quality);
-			mesh = generator.GenerateMesh(molecule);
+			generator = new PDBMeshGenerator(molecule, "", atomResolution, moleculeScale, atomSize, quality);
+			mesh = generator.GenerateMesh();
 		}
 
 		void SaveMesh ()

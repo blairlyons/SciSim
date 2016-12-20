@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SciSim
 {
-	public class PDBImporter : Importer
+	public class PDBImporter
 	{
 		public PDBAsset molecule;
 		public List<Residue> residueSequence;

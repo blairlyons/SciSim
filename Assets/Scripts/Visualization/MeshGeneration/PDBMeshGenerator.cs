@@ -8,8 +8,8 @@ namespace SciSim
 	{
 		PDBAsset molecule;
 
-		public PDBMeshGenerator (PDBAsset _molecule, string _name, float _percentOfPointsToUse, float _pointCloudScale, float _blobSize, float _quality)
-			: base (_name, _percentOfPointsToUse, _pointCloudScale, _blobSize, _quality)
+		public PDBMeshGenerator (PDBAsset _molecule, float _percentOfPointsToUse, float _pointCloudScale, float _blobSize, float _quality)
+			: base ("", _percentOfPointsToUse, _pointCloudScale, _blobSize, _quality)
 		{ 
 			molecule = _molecule;
 		}

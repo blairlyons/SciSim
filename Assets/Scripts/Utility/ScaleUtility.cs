@@ -39,5 +39,10 @@ namespace SciSim
 				return 1f;
 			}
 		}
+
+		public static float Conversion (Units fromUnits, Units toUnits)
+		{
+			return ScaleUtility.MultiplierFromMeters(toUnits) / ScaleUtility.MultiplierFromMeters(fromUnits);
+		}
 	}
 }

@@ -3,13 +3,12 @@ using System.Collections;
 
 namespace SciSim
 {
-	public abstract class PDBVisualizer : MonoBehaviour 
+	public abstract class PDBVisualization : Visualization 
 	{
 		public bool renderOnStart = true;
 		public int currentStructure = 0;
 		public PDBAsset[] structures = new PDBAsset[1];
 		public float scale = 1f;
-		public float resolution = 0.5f;
 		public float atomSize = 10f;
 		public MoleculePalette palette;
 

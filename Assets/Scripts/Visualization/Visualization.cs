@@ -5,6 +5,6 @@ namespace SciSim
 {
 	public class Visualization : MonoBehaviour 
 	{
-		public float resolution;
+		public float resolution = 100f;
 	}
 }

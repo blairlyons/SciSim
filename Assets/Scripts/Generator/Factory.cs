@@ -10,7 +10,7 @@ namespace SciSim
 		public int variation;
 
 		public Pattern pattern;
-		public Agent agentPrefab;
+		public GeneratorAgent agentPrefab;
 
 		Container _container;
 		public Container container
@@ -25,7 +25,7 @@ namespace SciSim
 			}
 		}
 
-		public List<Agent> agents;
+		public List<GeneratorAgent> agents;
 
 		void Start () 
 		{
@@ -38,11 +38,11 @@ namespace SciSim
 			{
 				int n = Random.Range( count - variation, count + variation );
 
-				Agent agent;
-				agents = new List<Agent>();
+				GeneratorAgent agent;
+				agents = new List<GeneratorAgent>();
 				for (int i = 0; i < n; i++)
 				{
-					agent = Instantiate( agentPrefab ).GetComponent<Agent>();
+					agent = Instantiate( agentPrefab ).GetComponent<GeneratorAgent>();
 					agent.transform.SetParent( transform );
 					agent.transform.position = GetPosition( i, n );
 					agent.transform.rotation = GetRotation( i, n );

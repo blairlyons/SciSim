@@ -5,7 +5,7 @@ using BehaviorDesigner.Runtime;
 
 namespace SciSim
 {
-	public class Agent : MonoBehaviour, IAgent
+	public class GeneratorAgent : MonoBehaviour, IAgent
 	{
 		public float size;
 		public Units units;

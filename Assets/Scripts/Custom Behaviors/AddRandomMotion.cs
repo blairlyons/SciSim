@@ -14,14 +14,14 @@ namespace BehaviorDesigner.Runtime.Tasks.SciSim
 		[Tooltip("Multiply distance of animation path")]
 		public SharedFloat sizeMultiplier;
 
-		Agent _agent;
-		Agent agent
+		GeneratorAgent _agent;
+		GeneratorAgent agent
 		{
 			get 
 			{
 				if (_agent == null)
 				{
-					_agent = targetAgent.Value.GetComponent<Agent>();
+					_agent = targetAgent.Value.GetComponent<GeneratorAgent>();
 				}
 				return _agent;
 			}

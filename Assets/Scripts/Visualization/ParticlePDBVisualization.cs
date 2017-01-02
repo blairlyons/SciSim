@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SciSim
 {
-	public class ParticlePDBVisualizer : PDBVisualizer 
+	public class ParticlePDBVisualization : PDBVisualization
 	{
 		public string emitterPrefabName = "DefaultParticleEmitter";
 
@@ -50,7 +50,7 @@ namespace SciSim
 		{
 			foreach (PDBAtom atom in structures[currentStructure].atoms)
 			{
-				if (atom.index % Mathf.Ceil(1 / resolution) == 0)
+				if (atom.index % Mathf.Ceil(100f / resolution) == 0)
 				{
 					EmitAtom(atom);
 				}

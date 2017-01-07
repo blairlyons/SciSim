@@ -6,7 +6,7 @@ namespace SciSim
 {
 	public class Input : MonoBehaviour 
 	{
-		public float zoomSpeed = 1f;
+		public float zoomSpeed = 0.1f;
 
 		void Update () 
 		{

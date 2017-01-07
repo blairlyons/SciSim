@@ -16,6 +16,23 @@ namespace SciSim
 
 		public List<Visualization> visualizationPrefabs = new List<Visualization>();
 
+		public float diameter 
+		{
+			get
+			{
+				return 2f * radius;
+			}
+		}
+
+		public float parentScale // in this agent's units
+		{ 
+			get
+			{
+				return (parentAgent == null ? BubbleGenerator.Instance.currentScale : parentAgent.diameter) 
+					* ScaleUtility.ConvertUnitMultiplier((parentAgent == null ? BubbleGenerator.Instance.currentUnits : parentAgent.units), units);
+			}
+		}
+
 		float _currentResolution = 100f;
 		public float currentResolution
 		{
@@ -35,6 +52,19 @@ namespace SciSim
 
 		public Visualization visualization;
 
+		Agent _parentAgent;
+		public Agent parentAgent
+		{
+			get 
+			{
+				if (_parentAgent == null && transform.parent != null)
+				{
+					_parentAgent = transform.parent.GetComponent<Agent>();
+				}
+				return _parentAgent;
+			}
+		}
+
 		void Start ()
 		{
 			if (initOnStart)
@@ -45,14 +75,14 @@ namespace SciSim
 
 		public void Init () 
 		{
-			SetScale();
+			UpdateScale();
 			SetupPhysics();
 			Visualize();
 		}
 
-		void SetScale ()
-		{
-			transform.localScale = 2f * radius * ScaleUtility.ConvertUnits(units, BubbleGenerator.Instance.currentUnits) * Vector3.one;
+		public void UpdateScale ()
+		{ 
+			transform.localScale = diameter / parentScale * Vector3.one;
 		}
 
 		void SetupPhysics ()
@@ -64,10 +94,6 @@ namespace SciSim
 			}
 			c.isTrigger = true;
 			c.radius = 0.5f;
-			if (transform.parent != null)
-			{
-				c.radius /= transform.parent.localScale.x;
-			}
 		}
 
 		void Visualize ()
@@ -107,7 +133,8 @@ namespace SciSim
 
 		void OnDrawGizmos ()
 		{
-			Gizmos.DrawWireSphere(transform.position, radius * ScaleUtility.ConvertUnits(units, BubbleGenerator.Instance.currentUnits));
+			Gizmos.DrawWireSphere(transform.position, 
+				radius * ScaleUtility.ConvertUnitMultiplier(units, (parentAgent == null ? BubbleGenerator.Instance.currentUnits : parentAgent.units)));
 		}
 
 		public virtual bool IsSameAgent (IAgent other)

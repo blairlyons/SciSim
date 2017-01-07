@@ -9,10 +9,34 @@ namespace SciSim
 		public delegate void ScaleChange();
 		public static event ScaleChange OnScaleChange;
 
-		public float currentRadius = 10f;
+		public float currentScale = 1f; // one unit in the unity editor scene view = 1 nm (for example)
 		public Units currentUnits = Units.Nanometers;
+		public float spawnRadius = 10f;
 		public LayerMask agentLayer;
 		public List<Agent> overlappingAgents = new List<Agent>();
+
+		Agent _anchorAgent;
+		public Agent anchorAgent
+		{
+			get
+			{
+				if (_anchorAgent == null)
+				{
+					UpdateAnchorAgent();
+				}
+				return _anchorAgent;
+			}
+		}
+
+		void UpdateAnchorAgent ()
+		{
+			Transform agent = GameObject.FindObjectOfType<Agent>().transform;
+			while (agent.parent != null && agent.parent.GetComponent<Agent>())
+			{
+				agent = agent.parent;
+			}
+			_anchorAgent = agent.GetComponent<Agent>();
+		}
 
 		static BubbleGenerator _Instance;
 		public static BubbleGenerator Instance
@@ -29,23 +53,23 @@ namespace SciSim
 
 		public void Zoom (float dZoom)
 		{
-			currentRadius += Mathf.Min(50f, (dZoom / Mathf.Abs(dZoom)) * Mathf.Pow(10f, Mathf.Log10(currentRadius) + dZoom - 1f));
+			currentScale += dZoom * currentScale;
 			CheckChangeUnits();
+
+			if (OnScaleChange != null)
+			{
+				OnScaleChange();
+			}
 		}
 
 		void CheckChangeUnits ()
 		{
-			if (currentRadius < 1f || currentRadius > 1E3f)
+			if (currentScale < 1f || currentScale > 1E3f)
 			{
-				currentRadius = Mathf.Clamp(currentRadius, 1f, 1E3f);
-				Units newUnits = ScaleUtility.GetNextScale(currentUnits, currentRadius > 1f ? 1 : -1);
-				currentRadius = currentRadius * ScaleUtility.ConvertUnits(currentUnits, newUnits);
+				currentScale = Mathf.Clamp(currentScale, 1f, 1E3f);
+				Units newUnits = ScaleUtility.GetNextScale(currentUnits, currentScale > 1f ? 1 : -1);
+				currentScale = currentScale * ScaleUtility.ConvertUnitMultiplier(currentUnits, newUnits);
 				currentUnits = newUnits;
-
-				if (OnScaleChange != null)
-				{
-					OnScaleChange();
-				}
 			}
 		}
 
@@ -62,7 +86,7 @@ namespace SciSim
 				c = gameObject.AddComponent<SphereCollider>();
 			}
 			c.isTrigger = true;
-			c.radius = currentRadius;
+			c.radius = currentScale;
 
 			Rigidbody r = GetComponent<Rigidbody>();
 			if (r == null)
@@ -123,10 +147,11 @@ namespace SciSim
 					int n = NumberOfAgentsForConcentration(agent.GetConcentrationAtPosition(transform.position));
 					for (int i = 0; i < n; i++)
 					{
-						Vector3 position = agent.GetChildPosition(transform.position, currentRadius, i, n);
+						Vector3 position = agent.GetChildPosition(transform.position, spawnRadius, i, n);
 						Quaternion rotation = agent.GetChildRotation(i, n);
 
 						Agent newChildAgent = Instantiate(agent.childAgent, position, rotation) as Agent;
+						newChildAgent.name = agent.childAgent.name + i;
 						newChildAgent.transform.SetParent(agent.transform);
 						newChildAgent.Init();
 					}
@@ -135,17 +160,17 @@ namespace SciSim
 			spawnedBubble = true;
 		}
 
+		//move to Distribution
 		float avogadro = 6.022E23f; // agents/mol
-
 		int NumberOfAgentsForConcentration (float concentration)
 		{
-			float volume = 4f/3f * Mathf.PI * Mathf.Pow(currentRadius * ScaleUtility.ConvertUnits(currentUnits, Units.Centimeters), 3f) * 1E-3f; //liters
+			float volume = 4f/3f * Mathf.PI * Mathf.Pow(spawnRadius * ScaleUtility.ConvertUnitMultiplier(currentUnits, Units.Centimeters), 3f) * 1E-3f; //liters
 			return Mathf.RoundToInt(concentration * volume * avogadro);
 		}
 
 		void OnDrawGizmos ()
 		{
-			Gizmos.DrawSphere( transform.position, currentRadius );
+			Gizmos.DrawSphere( transform.position, spawnRadius );
 		}
 	}
 }

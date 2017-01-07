@@ -56,7 +56,7 @@ namespace SciSim
 
 		void Update ()
 		{
-			TestMorph();
+			//TestMorph();
 		}
 
 		protected abstract void TestMorph ();

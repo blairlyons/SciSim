@@ -5,6 +5,11 @@ namespace SciSim
 {
 	public static class ScaleUtility 
 	{
+		public static float ToMeters (float number, Units fromUnits)
+		{
+			return number / ScaleUtility.MultiplierFromMeters(fromUnits);
+		}
+
 		public static float MultiplierFromMeters (Units fromUnits)
 		{
 			switch (fromUnits)
@@ -13,11 +18,11 @@ namespace SciSim
 				return 1E15f;
 			case Units.Picometers :
 				return 1E12f;
-			case Units.Angstroms : //10
+			case Units.Angstroms :
 				return 1E10f;
-			case Units.Nanometers : //9
+			case Units.Nanometers :
 				return 1E9f;
-			case Units.Micrometers : //8
+			case Units.Micrometers :
 				return 1E6f;
 			case Units.Millimeters :
 				return 1E3f;
@@ -56,7 +61,7 @@ namespace SciSim
 			return (Units)newUnits;
 		}
 
-		public static float ConvertUnits (Units fromUnits, Units toUnits)
+		public static float ConvertUnitMultiplier (Units fromUnits, Units toUnits)
 		{
 			return ScaleUtility.MultiplierFromMeters(toUnits) / ScaleUtility.MultiplierFromMeters(fromUnits);
 		}

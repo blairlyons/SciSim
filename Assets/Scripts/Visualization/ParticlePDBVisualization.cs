@@ -21,6 +21,21 @@ namespace SciSim
 			}
 		}
 
+		float worldScaleMultiplier
+		{
+			get
+			{
+				Transform t = transform;
+				float scale = transform.localScale.x;
+				while (t.parent != null)
+				{
+					t = t.parent;
+					scale *= t.localScale.x;
+				}
+				return scale;
+			}
+		}
+
 		void InitEmitter ()
 		{
 			GameObject emitterPrefab = Resources.Load(emitterPrefabName) as GameObject;
@@ -31,7 +46,7 @@ namespace SciSim
 				_emitter.transform.position = transform.position;
 				_emitter.transform.rotation = transform.rotation;
 				_emitter.transform.localScale = Vector3.one;
-				scale =  1f / (2f * transform.parent.localScale.x);
+				scale = 1f / (2f * worldScaleMultiplier);
 			}
 			else 
 			{

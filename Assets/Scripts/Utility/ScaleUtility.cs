@@ -13,11 +13,11 @@ namespace SciSim
 				return 1E15f;
 			case Units.Picometers :
 				return 1E12f;
-			case Units.Angstroms :
+			case Units.Angstroms : //10
 				return 1E10f;
-			case Units.Nanometers :
+			case Units.Nanometers : //9
 				return 1E9f;
-			case Units.Micrometers :
+			case Units.Micrometers : //8
 				return 1E6f;
 			case Units.Millimeters :
 				return 1E3f;
@@ -38,6 +38,22 @@ namespace SciSim
 			default :
 				return 1f;
 			}
+		}
+
+		// -direction to get smaller units, +direction to get larger
+		public static Units GetNextScale (Units currentUnits, int direction)
+		{
+			int newUnits = (int)currentUnits - direction;
+			if (direction > 0 && (currentUnits == Units.Picometers || currentUnits == Units.Millimeters))
+			{
+				newUnits--;
+			}
+			else if (direction < 0 && (currentUnits == Units.Nanometers || currentUnits == Units.Meters))
+			{
+				newUnits++;
+			}
+			newUnits = Mathf.Clamp(newUnits, 0, 12);
+			return (Units)newUnits;
 		}
 
 		public static float ConvertUnits (Units fromUnits, Units toUnits)

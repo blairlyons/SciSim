@@ -6,6 +6,7 @@ namespace SciSim
 {
 	public class Agent : MonoBehaviour 
 	{
+		public bool active;
 		public bool initOnStart;
 		public float radius;
 		public Units units;
@@ -44,9 +45,14 @@ namespace SciSim
 
 		public void Init () 
 		{
-			SetupPhysics();
 			SetScale();
+			SetupPhysics();
 			Visualize();
+		}
+
+		void SetScale ()
+		{
+			transform.localScale = 2f * radius * ScaleUtility.ConvertUnits(units, BubbleGenerator.Instance.currentUnits) * Vector3.one;
 		}
 
 		void SetupPhysics ()
@@ -58,11 +64,10 @@ namespace SciSim
 			}
 			c.isTrigger = true;
 			c.radius = 0.5f;
-		}
-
-		void SetScale ()
-		{
-			transform.localScale = 2f * radius * ScaleUtility.MultiplierFromMeters( BubbleGenerator.Instance.currentUnits ) / ScaleUtility.MultiplierFromMeters( units ) * Vector3.one;
+			if (transform.parent != null)
+			{
+				c.radius /= transform.parent.localScale.x;
+			}
 		}
 
 		void Visualize ()
@@ -71,7 +76,6 @@ namespace SciSim
 			{
 				Destroy( visualization.gameObject );
 			}
-			Debug.Log(visualizationPrefabs[0].resolution + " == " + currentResolution);
 			Visualization prefab = visualizationPrefabs.Find( viz => viz.resolution == currentResolution );
 			if (prefab != null)
 			{
@@ -103,7 +107,7 @@ namespace SciSim
 
 		void OnDrawGizmos ()
 		{
-			Gizmos.DrawWireSphere(transform.position, radius);
+			Gizmos.DrawWireSphere(transform.position, radius * ScaleUtility.ConvertUnits(units, BubbleGenerator.Instance.currentUnits));
 		}
 
 		public virtual bool IsSameAgent (IAgent other)

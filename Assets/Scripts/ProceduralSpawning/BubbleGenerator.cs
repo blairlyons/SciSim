@@ -6,6 +6,9 @@ namespace SciSim
 {
 	public class BubbleGenerator : MonoBehaviour 
 	{
+		public delegate void ScaleChange();
+		public static event ScaleChange OnScaleChange;
+
 		public float currentRadius = 10f;
 		public Units currentUnits = Units.Nanometers;
 		public LayerMask agentLayer;
@@ -21,6 +24,28 @@ namespace SciSim
 					_Instance = GameObject.FindObjectOfType<BubbleGenerator>();
 				}
 				return _Instance;
+			}
+		}
+
+		public void Zoom (float dZoom)
+		{
+			currentRadius += Mathf.Min(50f, (dZoom / Mathf.Abs(dZoom)) * Mathf.Pow(10f, Mathf.Log10(currentRadius) + dZoom - 1f));
+			CheckChangeUnits();
+		}
+
+		void CheckChangeUnits ()
+		{
+			if (currentRadius < 1f || currentRadius > 1E3f)
+			{
+				currentRadius = Mathf.Clamp(currentRadius, 1f, 1E3f);
+				Units newUnits = ScaleUtility.GetNextScale(currentUnits, currentRadius > 1f ? 1 : -1);
+				currentRadius = currentRadius * ScaleUtility.ConvertUnits(currentUnits, newUnits);
+				currentUnits = newUnits;
+
+				if (OnScaleChange != null)
+				{
+					OnScaleChange();
+				}
 			}
 		}
 
@@ -79,19 +104,13 @@ namespace SciSim
 			//todo unsubscribe listeners
 		}
 
+		bool spawnedBubble;
+
 		void Update () 
 		{
 			if (!spawnedBubble && overlappingAgents.Count > 0)
 			{
 				SpawnBubble();
-			}
-		}
-
-		bool spawnedBubble 
-		{
-			get 
-			{
-				return GetComponentInChildren<Agent>() != null;
 			}
 		}
 
@@ -108,11 +127,12 @@ namespace SciSim
 						Quaternion rotation = agent.GetChildRotation(i, n);
 
 						Agent newChildAgent = Instantiate(agent.childAgent, position, rotation) as Agent;
-						newChildAgent.transform.SetParent(transform);
+						newChildAgent.transform.SetParent(agent.transform);
 						newChildAgent.Init();
 					}
 				}
 			}
+			spawnedBubble = true;
 		}
 
 		float avogadro = 6.022E23f; // agents/mol

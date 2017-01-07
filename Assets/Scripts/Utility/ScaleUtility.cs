@@ -40,7 +40,7 @@ namespace SciSim
 			}
 		}
 
-		public static float Conversion (Units fromUnits, Units toUnits)
+		public static float ConvertUnits (Units fromUnits, Units toUnits)
 		{
 			return ScaleUtility.MultiplierFromMeters(toUnits) / ScaleUtility.MultiplierFromMeters(fromUnits);
 		}

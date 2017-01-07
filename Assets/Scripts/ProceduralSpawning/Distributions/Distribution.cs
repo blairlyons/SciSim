@@ -5,16 +5,19 @@ namespace SciSim
 {
 	public abstract class Distribution : ScriptableObject
 	{
-		public int amount; //mol
-
+		public float maxConcentration = 2E-2f; // mol/L
+		 
 		//mol/L
 		public abstract float GetConcentrationAtLocalPosition (Vector3 localPosition, float radius, Units units);
 
-		//mol/L
-		public float GetAverageConcentration (float radius, Units units)
+		public virtual Vector3 GetPosition (Vector3 bubblePosition, float bubbleRadius, Vector3 agentPosition, float agentRadius, int index, int n)
 		{
-			float radiusCM = radius * ScaleUtility.Conversion(units, Units.Centimeters);
-			return amount / (4f/3f * Mathf.PI * Mathf.Pow(radiusCM, 3f) * 1E-3f);
+			return Vector3.zero;
+		}
+
+		public virtual Quaternion GetRotation (int index, int n)
+		{
+			return Random.rotation;
 		}
 	}
 }

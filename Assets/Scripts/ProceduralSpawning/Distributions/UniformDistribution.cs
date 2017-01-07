@@ -8,7 +8,12 @@ namespace SciSim
 	{
 		public override float GetConcentrationAtLocalPosition (Vector3 localPosition, float radius, Units units)
 		{
-			return GetAverageConcentration(radius, units);
+			return maxConcentration;
+		}
+
+		public override Vector3 GetPosition (Vector3 bubblePosition, float bubbleRadius, Vector3 agentPosition, float agentRadius, int index, int n)
+		{
+			return bubbleRadius * Random.insideUnitSphere;
 		}
 	}
 }

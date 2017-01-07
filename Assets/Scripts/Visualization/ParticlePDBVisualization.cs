@@ -31,6 +31,7 @@ namespace SciSim
 				_emitter.transform.position = transform.position;
 				_emitter.transform.rotation = transform.rotation;
 				_emitter.transform.localScale = Vector3.one;
+				scale =  1f / (2f * transform.parent.localScale.x);
 			}
 			else 
 			{
@@ -65,7 +66,7 @@ namespace SciSim
 			particle.velocity = Vector3.zero;
 			particle.startLifetime = Mathf.Infinity;
 			particle.startColor = palette.ColorForElement(atomData.elementType);
-			particle.startSize = atomSize * MoleculeUtility.SizeForElement(atomData.elementType);
+			particle.startSize = scale * atomSize * MoleculeUtility.SizeForElement(atomData.elementType);
 			particle.randomSeed = (uint)atomData.index;
 
 			emitter.Emit(particle, 1);

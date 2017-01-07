@@ -9,7 +9,12 @@ namespace SciSim
 		public override float GetConcentrationAtLocalPosition (Vector3 localPosition, float radius, Units units)
 		{
 			//todo
-			return GetAverageConcentration(radius, units);
+			return maxConcentration;
+		}
+
+		public override Vector3 GetPosition (Vector3 bubblePosition, float bubbleRadius, Vector3 agentPosition, float agentRadius, int index, int n)
+		{
+			return Vector3.zero;
 		}
 	}
 }

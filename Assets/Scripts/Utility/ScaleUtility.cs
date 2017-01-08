@@ -5,6 +5,11 @@ namespace SciSim
 {
 	public static class ScaleUtility 
 	{
+		public static float ToMeters (float number, Units fromUnits)
+		{
+			return number / ScaleUtility.MultiplierFromMeters(fromUnits);
+		}
+
 		public static float MultiplierFromMeters (Units fromUnits)
 		{
 			switch (fromUnits)
@@ -38,6 +43,27 @@ namespace SciSim
 			default :
 				return 1f;
 			}
+		}
+
+		// -direction to get smaller units, +direction to get larger
+		public static Units GetNextScale (Units currentUnits, int direction)
+		{
+			int newUnits = (int)currentUnits - direction;
+			if (direction > 0 && (currentUnits == Units.Picometers || currentUnits == Units.Millimeters))
+			{
+				newUnits--;
+			}
+			else if (direction < 0 && (currentUnits == Units.Nanometers || currentUnits == Units.Meters))
+			{
+				newUnits++;
+			}
+			newUnits = Mathf.Clamp(newUnits, 0, 12);
+			return (Units)newUnits;
+		}
+
+		public static float ConvertUnitMultiplier (Units fromUnits, Units toUnits)
+		{
+			return ScaleUtility.MultiplierFromMeters(toUnits) / ScaleUtility.MultiplierFromMeters(fromUnits);
 		}
 	}
 }

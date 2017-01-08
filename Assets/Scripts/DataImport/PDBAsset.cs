@@ -29,7 +29,7 @@ namespace SciSim
 		public Residue residueType;
 		public int atomNumber;
 		public Element elementType;
-		public Vector3 localPosition;
+		public Vector3 localPosition; //angstroms
 
 		public PDBAtom (int _index, string _chainID, int _residueNumber, Residue _residueType, int _atomNumber, Element _elementType, Vector3 _localPosition)
 		{

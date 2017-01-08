@@ -4,9 +4,26 @@ using System.Collections.Generic;
 
 namespace SciSim
 {
-	public class ParticlePDBVisualizer : PDBVisualizer 
+	public class ParticlePDBVisualization : PDBVisualization
 	{
 		public string emitterPrefabName = "DefaultParticleEmitter";
+
+		void OnEnable ()
+		{
+			ZoomController.OnScaleChange += UpdateScale;
+		}
+
+		void OnDisable ()
+		{
+			ZoomController.OnScaleChange -= UpdateScale;
+		}
+
+		void UpdateScale ()
+		{
+			emitter.Clear();
+			scale = (1E3f / ZoomController.Instance.currentScale) / (2f * worldScale);
+			Render();
+		}
 
 		ParticleSystem _emitter;
 		ParticleSystem emitter 
@@ -21,6 +38,21 @@ namespace SciSim
 			}
 		}
 
+		float worldScale
+		{
+			get
+			{
+				Transform t = transform;
+				float scale = transform.localScale.x;
+				while (t.parent.parent != null)
+				{
+					t = t.parent;
+					scale *= t.localScale.x;
+				}
+				return scale;
+			}
+		}
+
 		void InitEmitter ()
 		{
 			GameObject emitterPrefab = Resources.Load(emitterPrefabName) as GameObject;
@@ -31,6 +63,7 @@ namespace SciSim
 				_emitter.transform.position = transform.position;
 				_emitter.transform.rotation = transform.rotation;
 				_emitter.transform.localScale = Vector3.one;
+				scale = 1f / (2f * worldScale);
 			}
 			else 
 			{
@@ -50,7 +83,7 @@ namespace SciSim
 		{
 			foreach (PDBAtom atom in structures[currentStructure].atoms)
 			{
-				if (atom.index % Mathf.Ceil(1 / resolution) == 0)
+				if (atom.index % Mathf.Ceil(100f / resolution) == 0)
 				{
 					EmitAtom(atom);
 				}
@@ -65,7 +98,7 @@ namespace SciSim
 			particle.velocity = Vector3.zero;
 			particle.startLifetime = Mathf.Infinity;
 			particle.startColor = palette.ColorForElement(atomData.elementType);
-			particle.startSize = atomSize * MoleculeUtility.SizeForElement(atomData.elementType);
+			particle.startSize = scale * atomSize * MoleculeUtility.SizeForElement(atomData.elementType);
 			particle.randomSeed = (uint)atomData.index;
 
 			emitter.Emit(particle, 1);

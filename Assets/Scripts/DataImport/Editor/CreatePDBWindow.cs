@@ -4,7 +4,7 @@ using UnityEditor;
 
 namespace SciSim
 {
-	public class PDBImportWindow : EditorWindow
+	public class CreatePDBWindow : CreateMeshWindow
 	{
 		bool download = true;
 		string pdbID = "";
@@ -12,18 +12,15 @@ namespace SciSim
 
 		string pdbData;
 		PDBAsset molecule;
-		Mesh mesh;
-		bool savedMesh;
 
-		float atomResolution = 1f;
+		float atomResolution = 100f;
 		float moleculeScale = 1f;
 		float atomSize = 5f;
-		float quality = 0.4f;
 
-		[MenuItem ("ScienceTools/Import/PDB", false, 0)]
+		[MenuItem ("ScienceTools/Create/PDB", false, 0)]
 		public static void OpenPDBWindow ()
 		{
-			EditorWindow.GetWindow(typeof(PDBImportWindow));
+			EditorWindow.GetWindow(typeof(CreatePDBWindow));
 		}
 
 		void OnGUI ()
@@ -36,6 +33,7 @@ namespace SciSim
 
 				if (GUILayout.Button("Download"))
 				{
+					ClearGUI();
 					StartDownload();
 				}
 			}
@@ -43,6 +41,7 @@ namespace SciSim
 			{
 				if (GUILayout.Button("Choose PDB File"))
 				{
+					ClearGUI();
 					ChoosePDBFile();
 				}
 
@@ -96,9 +95,14 @@ namespace SciSim
 
 						EditorGUILayout.Separator();
 
+						if (GUILayout.Button("Clear Mesh"))
+						{
+							ResetGenerator();
+						}
+
 						if (GUILayout.Button("Save Mesh"))
 						{
-							SaveMesh();
+							SaveMesh("Assets/Molecules/Mesh", pdbID + "Mesh");
 						}
 
 						if (savedMesh)
@@ -135,7 +139,6 @@ namespace SciSim
 
 		void StartDownload ()
 		{
-			ClearGUI();
 			downloader.StartDownload("http://files.rcsb.org/download/" + pdbID + ".pdb", DownloadFinished);
 		}
 
@@ -147,11 +150,10 @@ namespace SciSim
 
 		#endregion
 
-		#region --------------------------------------------------------------------- Local File
+		#region --------------------------------------------------------------------- Load Local File
 
 		void ChoosePDBFile ()
 		{
-			ClearGUI();
 			filePath = EditorUtility.OpenFilePanel("Select a PDB file", "Assets/Data/PDB", "pdb");
 			filePath = filePath.Substring(filePath.IndexOf("Assets"));
 		}
@@ -164,6 +166,8 @@ namespace SciSim
 		}
 
 		#endregion
+
+		#region --------------------------------------------------------------------- Import
 
 		void ImportTextData ()
 		{
@@ -184,32 +188,15 @@ namespace SciSim
 			Selection.activeObject = molecule;
 		}
 
-		PDBMeshGenerator generator;
+		#endregion
 
-		void GenerateMesh ()
+		#region --------------------------------------------------------------------- Generate Mesh
+
+		protected override void CreateMeshGenerator () 
 		{
-			if (generator != null)
-			{
-				generator.CleanUp();
-			}
-			generator = new PDBMeshGenerator(molecule, "", atomResolution, moleculeScale, atomSize, quality);
-			mesh = generator.GenerateMesh();
+			generator = new PDBMeshGenerator(molecule, atomResolution, moleculeScale, atomSize, quality);
 		}
 
-		void SaveMesh ()
-		{
-			generator.CleanUp();
-			generator = null;
-
-			string path = EditorUtility.SaveFilePanel("Save Mesh", "Assets/Molecules/Mesh", pdbID + "Mesh" , "asset");
-			path = path.Substring(path.IndexOf("Assets"));
-
-			AssetDatabase.CreateAsset(mesh, path);
-			AssetDatabase.SaveAssets();
-
-			EditorUtility.FocusProjectWindow();
-			Selection.activeObject = mesh;
-			savedMesh = true;
-		}
+		#endregion
 	}
 }

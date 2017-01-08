@@ -37,7 +37,7 @@ namespace SciSim
 			GameObject prefab = Resources.Load("MeshGenerator") as GameObject;
 			if (prefab != null)
 			{
-				GameObject g = GameObject.Instantiate(prefab);
+				GameObject g = GameObject.Instantiate(prefab, Vector3.zero, Quaternion.identity) as GameObject;
 				g.name = name + " Mesh Generator";
 				generator = g.GetComponent<ImplicitSurfaceMeshCreaterBase>();
 				generator.gridSize = 1f +  0.5f / quality;

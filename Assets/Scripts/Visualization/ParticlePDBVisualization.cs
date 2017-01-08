@@ -8,6 +8,23 @@ namespace SciSim
 	{
 		public string emitterPrefabName = "DefaultParticleEmitter";
 
+		void OnEnable ()
+		{
+			ZoomController.OnScaleChange += UpdateScale;
+		}
+
+		void OnDisable ()
+		{
+			ZoomController.OnScaleChange -= UpdateScale;
+		}
+
+		void UpdateScale ()
+		{
+			emitter.Clear();
+			scale = (1E3f / ZoomController.Instance.currentScale) / (2f * worldScale);
+			Render();
+		}
+
 		ParticleSystem _emitter;
 		ParticleSystem emitter 
 		{
@@ -21,13 +38,13 @@ namespace SciSim
 			}
 		}
 
-		float worldScaleMultiplier
+		float worldScale
 		{
 			get
 			{
 				Transform t = transform;
 				float scale = transform.localScale.x;
-				while (t.parent != null)
+				while (t.parent.parent != null)
 				{
 					t = t.parent;
 					scale *= t.localScale.x;
@@ -46,7 +63,7 @@ namespace SciSim
 				_emitter.transform.position = transform.position;
 				_emitter.transform.rotation = transform.rotation;
 				_emitter.transform.localScale = Vector3.one;
-				scale = 1f / (2f * worldScaleMultiplier);
+				scale = 1f / (2f * worldScale);
 			}
 			else 
 			{

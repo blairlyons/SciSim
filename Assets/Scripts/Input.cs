@@ -12,22 +12,22 @@ namespace SciSim
 		{
 			if (UnityEngine.Input.GetKey(KeyCode.Comma))
 			{
-				ZoomIn();
+				ZoomOut();
 			}
 			if (UnityEngine.Input.GetKey(KeyCode.Period))
 			{
-				ZoomOut();
+				ZoomIn();
 			}
 		}
 
 		void ZoomIn ()
 		{
-			BubbleGenerator.Instance.Zoom(-zoomSpeed);
+			ZoomController.Instance.Zoom(-zoomSpeed);
 		}
 
 		void ZoomOut ()
 		{
-			BubbleGenerator.Instance.Zoom(+zoomSpeed);
+			ZoomController.Instance.Zoom(+zoomSpeed);
 		}
 	}
 }

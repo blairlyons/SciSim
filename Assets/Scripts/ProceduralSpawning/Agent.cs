@@ -28,25 +28,8 @@ namespace SciSim
 		{ 
 			get
 			{
-				return (parentAgent == null ? BubbleGenerator.Instance.currentScale : parentAgent.diameter) 
-					* ScaleUtility.ConvertUnitMultiplier((parentAgent == null ? BubbleGenerator.Instance.currentUnits : parentAgent.units), units);
-			}
-		}
-
-		float _currentResolution = 100f;
-		public float currentResolution
-		{
-			get 
-			{
-				return _currentResolution;
-			}
-			set 
-			{
-				if (_currentResolution != value)
-				{
-					_currentResolution = value;
-					Visualize();
-				}
+				return (parentAgent == null ? ZoomController.Instance.currentScale : parentAgent.diameter) 
+					* ScaleUtility.ConvertUnitMultiplier((parentAgent == null ? ZoomController.Instance.currentUnits : parentAgent.units), units);
 			}
 		}
 
@@ -85,15 +68,17 @@ namespace SciSim
 			transform.localScale = diameter / parentScale * Vector3.one;
 		}
 
+		SphereCollider sphereCollider;
+
 		void SetupPhysics ()
 		{
-			SphereCollider c = GetComponent<Collider>() as SphereCollider;
-			if (c == null)
+			sphereCollider = GetComponent<Collider>() as SphereCollider;
+			if (sphereCollider == null)
 			{
-				c = gameObject.AddComponent<SphereCollider>();
+				sphereCollider = gameObject.AddComponent<SphereCollider>();
 			}
-			c.isTrigger = true;
-			c.radius = 0.5f;
+			sphereCollider.isTrigger = true;
+			sphereCollider.radius = 0.5f;
 		}
 
 		void Visualize ()
@@ -102,10 +87,13 @@ namespace SciSim
 			{
 				Destroy( visualization.gameObject );
 			}
-			Visualization prefab = visualizationPrefabs.Find( viz => viz.resolution == currentResolution );
-			if (prefab != null)
+			if (visualizationPrefabs.Count > 0)
 			{
-				CreateVisualization( prefab.gameObject );
+				Visualization prefab = visualizationPrefabs[0];//.Find( viz => viz.resolution == currentResolution );
+				if (prefab != null)
+				{
+					CreateVisualization( prefab.gameObject );
+				}
 			}
 		}
 
@@ -131,10 +119,24 @@ namespace SciSim
 			return childDistribution.GetRotation(index, n);
 		}
 
+		float worldScale
+		{
+			get
+			{
+				Transform t = transform;
+				float scale = transform.localScale.x;
+				while (t.parent != null)
+				{
+					t = t.parent;
+					scale *= t.localScale.x;
+				}
+				return scale;
+			}
+		}
+
 		void OnDrawGizmos ()
 		{
-			Gizmos.DrawWireSphere(transform.position, 
-				radius * ScaleUtility.ConvertUnitMultiplier(units, (parentAgent == null ? BubbleGenerator.Instance.currentUnits : parentAgent.units)));
+			Gizmos.DrawWireSphere(transform.position, worldScale / 2f);
 		}
 
 		public virtual bool IsSameAgent (IAgent other)

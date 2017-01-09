@@ -6,8 +6,7 @@ namespace SciSim
 {
 	public class ZoomController : MonoBehaviour 
 	{
-		public delegate void ScaleEvent();
-		public static event ScaleEvent OnScaleChange;
+		public static event NavigationEvent OnScaleChange;
 
 		public float currentScale = 1f; // = one unit in the unity grid (ex: 1 unity unit = 1 nm)
 		public Units currentUnits = Units.Nanometers;

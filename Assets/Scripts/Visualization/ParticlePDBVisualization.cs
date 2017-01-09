@@ -11,18 +11,52 @@ namespace SciSim
 		void OnEnable ()
 		{
 			ZoomController.OnScaleChange += UpdateScale;
+			MoveController.OnMove += UpdateResolution;
 		}
 
 		void OnDisable ()
 		{
 			ZoomController.OnScaleChange -= UpdateScale;
+			MoveController.OnMove -= UpdateResolution;
 		}
 
 		void UpdateScale ()
 		{
-			emitter.Clear();
-			scale = (1E3f / ZoomController.Instance.currentScale) / (2f * worldScale);
-			Render();
+			SetResolution();
+			SetScale();
+			ReRender();
+		}
+
+		void UpdateResolution ()
+		{
+			if (SetResolution())
+			{
+				ReRender();
+			}
+		}
+
+		bool SetScale ()
+		{
+			float s = (1E3f / ZoomController.Instance.currentScale) / (2f * worldScale);
+			if (s != scale)
+			{
+				scale = s;
+				return true;
+			}
+			return false;
+		}
+
+		bool SetResolution ()
+		{
+			float res = Mathf.Clamp(-50f * Mathf.Log10(0.1f * cameraDistance / radius), 0, 100f);
+
+			if (res > resolution + 10f || res < resolution - 10f)
+			{
+				Debug.Log((cameraDistance / radius) + " => " + res);
+				resolution = res;
+				return true;
+			}
+			return false;
 		}
 
 		ParticleSystem _emitter;
@@ -64,6 +98,7 @@ namespace SciSim
 				_emitter.transform.rotation = transform.rotation;
 				_emitter.transform.localScale = Vector3.one;
 				scale = 1f / (2f * worldScale);
+				resolution = Mathf.Clamp(25f * (5f - cameraDistance / radius), 0, 100f);
 			}
 			else 
 			{
@@ -73,7 +108,7 @@ namespace SciSim
 
 		public override void Render ()
 		{
-			if (structures.Length > 0 && structures[currentStructure] != null && emitter != null)
+			if (structures.Length > 0 && structures[currentStructure] != null && emitter != null && resolution > 0)
 			{
 				EmitAtoms();
 			}
@@ -102,6 +137,12 @@ namespace SciSim
 			particle.randomSeed = (uint)atomData.index;
 
 			emitter.Emit(particle, 1);
+		}
+
+		void ReRender ()
+		{
+			emitter.Clear();
+			Render();
 		}
 
 		public override void StartMorph (int goalStructure, float duration)

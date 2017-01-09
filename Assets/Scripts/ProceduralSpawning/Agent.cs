@@ -102,6 +102,8 @@ namespace SciSim
 			visualization = (Instantiate( prefab, transform.position, transform.rotation ) as GameObject).GetComponent<Visualization>();
 			visualization.transform.SetParent( transform );
 			visualization.transform.localScale = Vector3.one;
+			visualization.radius = radius;
+			visualization.units = units;
 		}
 
 		public float GetConcentrationAtPosition (Vector3 position)
@@ -136,7 +138,7 @@ namespace SciSim
 
 		void OnDrawGizmos ()
 		{
-			Gizmos.DrawWireSphere(transform.position, worldScale / 2f);
+//			Gizmos.DrawWireSphere(transform.position, worldScale / 2f);
 		}
 
 		public virtual bool IsSameAgent (IAgent other)

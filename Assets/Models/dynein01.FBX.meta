@@ -1,0 +1,613 @@
+fileFormatVersion: 2
+guid: 3b2e541eb7f514ca9aac36df170b3d23
+timeCreated: 1484631206
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: big_ring000
+    100002: big_ring001
+    100004: Bone001
+    100006: Bone002
+    100008: Bone003
+    100010: Bone004
+    100012: Bone005
+    100014: Bone006
+    100016: Bone007
+    100018: Bone008
+    100020: Bone009
+    100022: Bone010
+    100024: Bone011
+    100026: Bone012
+    100028: Bone013
+    100030: Bone014
+    100032: Bone015
+    100034: //RootNode
+    100036: dynein_dummy
+    100038: linker000
+    100040: linker001
+    100042: strap
+    100044: tailL
+    100046: tailR
+    100048: vesicle
+    400000: big_ring000
+    400002: big_ring001
+    400004: Bone001
+    400006: Bone002
+    400008: Bone003
+    400010: Bone004
+    400012: Bone005
+    400014: Bone006
+    400016: Bone007
+    400018: Bone008
+    400020: Bone009
+    400022: Bone010
+    400024: Bone011
+    400026: Bone012
+    400028: Bone013
+    400030: Bone014
+    400032: Bone015
+    400034: //RootNode
+    400036: dynein_dummy
+    400038: linker000
+    400040: linker001
+    400042: strap
+    400044: tailL
+    400046: tailR
+    400048: vesicle
+    2300000: vesicle
+    3300000: vesicle
+    4300000: strap
+    4300002: tailR
+    4300004: tailL
+    4300006: big_ring001
+    4300008: linker001
+    4300010: big_ring000
+    4300012: linker000
+    4300014: vesicle
+    7400000: shuffleR
+    7400002: switchRtoL
+    7400004: shuffleL
+    7400006: switchLtoR
+    7400008: bigStep
+    7400010: crossover
+    9500000: //RootNode
+    13700000: big_ring000
+    13700002: big_ring001
+    13700004: linker000
+    13700006: linker001
+    13700008: strap
+    13700010: tailL
+    13700012: tailR
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: shuffleR
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 21
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: big_ring000
+        weight: 1
+      - path: big_ring001
+        weight: 1
+      - path: dynein_dummy
+        weight: 1
+      - path: dynein_dummy/Bone001
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004/Bone005
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004/Bone005/Bone006
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004/Bone005/Bone006/Bone007
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004/Bone005/Bone006/Bone007/Bone008
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011/Bone012
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011/Bone012/Bone013
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011/Bone012/Bone013/Bone014
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011/Bone012/Bone013/Bone014/Bone015
+        weight: 1
+      - path: dynein_dummy/Bone001/vesicle
+        weight: 1
+      - path: linker000
+        weight: 1
+      - path: linker001
+        weight: 1
+      - path: strap
+        weight: 1
+      - path: tailL
+        weight: 1
+      - path: tailR
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: switchRtoL
+      takeName: Take 001
+      firstFrame: 22
+      lastFrame: 44
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: big_ring000
+        weight: 1
+      - path: big_ring001
+        weight: 1
+      - path: dynein_dummy
+        weight: 1
+      - path: dynein_dummy/Bone001
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004/Bone005
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004/Bone005/Bone006
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004/Bone005/Bone006/Bone007
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004/Bone005/Bone006/Bone007/Bone008
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011/Bone012
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011/Bone012/Bone013
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011/Bone012/Bone013/Bone014
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011/Bone012/Bone013/Bone014/Bone015
+        weight: 1
+      - path: dynein_dummy/Bone001/vesicle
+        weight: 1
+      - path: linker000
+        weight: 1
+      - path: linker001
+        weight: 1
+      - path: strap
+        weight: 1
+      - path: tailL
+        weight: 1
+      - path: tailR
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: shuffleL
+      takeName: Take 001
+      firstFrame: 44
+      lastFrame: 64
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: big_ring000
+        weight: 1
+      - path: big_ring001
+        weight: 1
+      - path: dynein_dummy
+        weight: 1
+      - path: dynein_dummy/Bone001
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004/Bone005
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004/Bone005/Bone006
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004/Bone005/Bone006/Bone007
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004/Bone005/Bone006/Bone007/Bone008
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011/Bone012
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011/Bone012/Bone013
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011/Bone012/Bone013/Bone014
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011/Bone012/Bone013/Bone014/Bone015
+        weight: 1
+      - path: dynein_dummy/Bone001/vesicle
+        weight: 1
+      - path: linker000
+        weight: 1
+      - path: linker001
+        weight: 1
+      - path: strap
+        weight: 1
+      - path: tailL
+        weight: 1
+      - path: tailR
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: switchLtoR
+      takeName: Take 001
+      firstFrame: 65
+      lastFrame: 84
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: big_ring000
+        weight: 1
+      - path: big_ring001
+        weight: 1
+      - path: dynein_dummy
+        weight: 1
+      - path: dynein_dummy/Bone001
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004/Bone005
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004/Bone005/Bone006
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004/Bone005/Bone006/Bone007
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004/Bone005/Bone006/Bone007/Bone008
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011/Bone012
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011/Bone012/Bone013
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011/Bone012/Bone013/Bone014
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011/Bone012/Bone013/Bone014/Bone015
+        weight: 1
+      - path: dynein_dummy/Bone001/vesicle
+        weight: 1
+      - path: linker000
+        weight: 1
+      - path: linker001
+        weight: 1
+      - path: strap
+        weight: 1
+      - path: tailL
+        weight: 1
+      - path: tailR
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: bigStep
+      takeName: Take 001
+      firstFrame: 85
+      lastFrame: 149
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: big_ring000
+        weight: 1
+      - path: big_ring001
+        weight: 1
+      - path: dynein_dummy
+        weight: 1
+      - path: dynein_dummy/Bone001
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004/Bone005
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004/Bone005/Bone006
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004/Bone005/Bone006/Bone007
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004/Bone005/Bone006/Bone007/Bone008
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011/Bone012
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011/Bone012/Bone013
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011/Bone012/Bone013/Bone014
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011/Bone012/Bone013/Bone014/Bone015
+        weight: 1
+      - path: dynein_dummy/Bone001/vesicle
+        weight: 1
+      - path: linker000
+        weight: 1
+      - path: linker001
+        weight: 1
+      - path: strap
+        weight: 1
+      - path: tailL
+        weight: 1
+      - path: tailR
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: crossover
+      takeName: Take 001
+      firstFrame: 150
+      lastFrame: 192
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: big_ring000
+        weight: 1
+      - path: big_ring001
+        weight: 1
+      - path: dynein_dummy
+        weight: 1
+      - path: dynein_dummy/Bone001
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004/Bone005
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004/Bone005/Bone006
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004/Bone005/Bone006/Bone007
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone002/Bone003/Bone004/Bone005/Bone006/Bone007/Bone008
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011/Bone012
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011/Bone012/Bone013
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011/Bone012/Bone013/Bone014
+        weight: 1
+      - path: dynein_dummy/Bone001/Bone009/Bone010/Bone011/Bone012/Bone013/Bone014/Bone015
+        weight: 1
+      - path: dynein_dummy/Bone001/vesicle
+        weight: 1
+      - path: linker000
+        weight: 1
+      - path: linker001
+        weight: 1
+      - path: strap
+        weight: 1
+      - path: tailL
+        weight: 1
+      - path: tailR
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: dynein_dummy
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

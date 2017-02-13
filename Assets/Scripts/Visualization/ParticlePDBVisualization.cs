@@ -44,7 +44,7 @@ namespace SciSim
 			{
 				Transform t = transform;
 				float scale = transform.localScale.x;
-				while (t.parent.parent != null)
+				while (t.parent != null && t.parent.parent != null)
 				{
 					t = t.parent;
 					scale *= t.localScale.x;

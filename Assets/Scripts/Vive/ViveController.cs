@@ -45,6 +45,7 @@ public class ViveController : MonoBehaviour
         
         GetDPadHover();
         GetDPadPress();
+        GetTrigger();
     }
 
     void GetDPadHover ()
@@ -124,21 +125,31 @@ public class ViveController : MonoBehaviour
         }
     }
 
-    public virtual void OnDPadUpEnter() { }
+    void GetTrigger ()
+    {
+        if (controller.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
+        {
+            OnTriggerPressed();
+        }
+    }
 
-    public virtual void OnDPadLeftEnter() { }
+    public virtual void OnDPadUpEnter () { }
 
-    public virtual void OnDPadRightEnter() { }
+    public virtual void OnDPadLeftEnter () { }
 
-    public virtual void OnDPadDownEnter() { }
+    public virtual void OnDPadRightEnter () { }
 
-    public virtual void OnDPadExit() { }
+    public virtual void OnDPadDownEnter () { }
+
+    public virtual void OnDPadExit () { }
 
     public virtual void OnDPadUpPressed () { }
 
-    public virtual void OnDPadLeftPressed() { }
+    public virtual void OnDPadLeftPressed () { }
 
-    public virtual void OnDPadRightPressed() { }
+    public virtual void OnDPadRightPressed () { }
 
-    public virtual void OnDPadDownPressed() { }
+    public virtual void OnDPadDownPressed () { }
+
+    public virtual void OnTriggerPressed () { }
 }

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
@@ -9,6 +9,8 @@ public class TestViveController : ViveController
     public Button leftButton;
     public Button rightButton;
     public Button downButton;
+
+    public List<GameObject> prefabs = new List<GameObject>();
 
     public override void OnDPadUpEnter()
     {
@@ -37,26 +39,38 @@ public class TestViveController : ViveController
 
     public override void OnDPadUpPressed()
     {
-        SetCameraBackground( upButton.colors.normalColor );
+        //SetCameraBackground( upButton.colors.normalColor );
+        AddObject(0);
     }
 
     public override void OnDPadLeftPressed()
     {
-        SetCameraBackground( leftButton.colors.normalColor );
+        //SetCameraBackground( leftButton.colors.normalColor );
+        AddObject(1);
     }
 
     public override void OnDPadRightPressed()
     {
-        SetCameraBackground( rightButton.colors.normalColor );
+        //SetCameraBackground( rightButton.colors.normalColor );
+        AddObject(2);
     }
 
     public override void OnDPadDownPressed()
     {
-        SetCameraBackground( downButton.colors.normalColor );
+        //SetCameraBackground( downButton.colors.normalColor );
+        AddObject(3);
     }
 
     void SetCameraBackground(Color color)
     {
         GameObject.Find("Camera (eye)").GetComponent<Camera>().backgroundColor = color;
+    }
+
+    void AddObject (int index)
+    {
+        if (index < prefabs.Count && prefabs[index] != null)
+        {
+            Instantiate(prefabs[index], transform.position + 0.25f * transform.forward, Quaternion.identity);
+        }
     }
 }
